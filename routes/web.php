@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/operations', 'StaffController@index')->middleware('admin');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
