@@ -18,7 +18,7 @@ class Admin
     public function handle($request, Closure $next)
     {
         // Check if user exists and it has a role of admin
-        $this->auth = auth()->user() ? (auth()->user()->role === 'admin') : false;
+        $this->auth = auth()->user() ? (auth()->user()->role === 'admin' && auth()->user()->is_active) : false;
         if ($this->auth)
             // Pass request if auth is valid
             return $next($request);
