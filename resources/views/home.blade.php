@@ -2,9 +2,16 @@
 
 @section('content')
     <div id="app">
-        <router-link :to="{ name: 'add' }">Add a new User</router-link>
-        <router-link :to="{ name: 'edit' }">Change your Information</router-link>
-        <div class="container">
+        <div class="container offset-md-2">
+
+            @if (auth()->check())
+                @if (auth()->user()->role === 'admin')
+                    <router-link :to="{ name: 'add' }">Add a new User</router-link>
+                @endif
+            @endif
+            <router-link :to="{ name: 'edit' }">Change your Information</router-link>
+
+
             <router-view></router-view>
         </div>
 

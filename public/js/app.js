@@ -37180,7 +37180,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-8 offset-md-2" }, [
+    return _c("div", { staticClass: "col-md-8" }, [
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-header" }, [
           _c("h3", [_vm._v("Edit Profile")])
@@ -37217,7 +37217,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-8 offset-md-2" }, [
+    return _c("div", { staticClass: "col-md-8" }, [
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-header" }, [
           _c("h3", [_vm._v("Add User")])

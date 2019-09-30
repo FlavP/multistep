@@ -22,5 +22,5 @@ Route::group(['middleware' => 'web'], function () {
     Auth::routes(['register' => false]);
 
     Route::get('/', 'HomeController@index')->name('home');
-    Route::get('profile/{any}', 'HomeController@index')->where('any', '.*');
+    Route::get('/profile/{any}', 'HomeController@index')->where('any', '.*');
 });
