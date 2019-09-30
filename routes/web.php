@@ -17,9 +17,10 @@ Route::group(['middleware' => 'web'], function () {
 //        return view('welcome');
 //    });
 
-    Route::get('/operations', 'StaffController@index')->middleware('admin');
+    Route::get('/operations', 'StaffController@index')->middleware('operator');
 
     Auth::routes(['register' => false]);
 
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('profile/{any}', 'HomeController@index')->where('any', '.*');
 });
