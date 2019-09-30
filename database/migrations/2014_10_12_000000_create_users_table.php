@@ -20,7 +20,6 @@ class CreateUsersTable extends Migration
             $table->enum('role', ['operator', 'admin'])->default('operator');
             $table->integer('added_by')->default(1);
             $table->boolean('is_active')->default(1);
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('picture')->nullable();
             $table->rememberToken();
