@@ -7,6 +7,7 @@ import VueRouter from 'vue-router';
 //My Components
 import UserAdd from "./components/profile/UserAdd";
 import EditProfile from "./components/profile/EditProfile";
+import UploadPicture from "./components/profile/UploadPicture";
 
 Vue.use(VueRouter);
 
@@ -23,6 +24,11 @@ const router = new VueRouter({
             component: EditProfile,
             name: 'edit'
         },
+        {
+            path: '/profile/upload-picture',
+            component: UploadPicture,
+            name: 'picture'
+        }
     ]
 });
 
