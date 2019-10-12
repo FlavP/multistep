@@ -16,10 +16,8 @@
                         <router-link :to="{ name: 'picture' }" class="btn btn-outline-info">Upload a picture
                         </router-link>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-5 offset-md-3">
-                    <router-view></router-view>
+                    <router-view :userid="{{ auth()->user()->id }}"></router-view>
                 </div>
             </div>
         </div>

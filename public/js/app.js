@@ -1871,8 +1871,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "UploadPicture"
+  props: ['userid'],
+  name: "UploadPicture",
+  data: function data() {
+    return {
+      isInitial: true,
+      isUploading: false
+    };
+  }
 });
 
 /***/ }),
@@ -37231,17 +37257,49 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "card" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        attrs: {
+          action: "/change-picture",
+          method: "post",
+          enctype: "multipart/form-data",
+          novalidate: ""
+        }
+      },
+      [
+        _c("input", {
+          attrs: { type: "hidden" },
+          domProps: { value: _vm.userid }
+        }),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "profile-picture",
+          attrs: {
+            type: "file",
+            name: _vm.profilePicture,
+            accept: "image/*",
+            disabled: _vm.isUploading
+          }
+        }),
+        _vm._v(" "),
+        _vm.isInitial
+          ? _c("p", { staticClass: "initial" }, [_vm._v("404 Not Found")])
+          : _vm._e()
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _c("h3", [_vm._v("Upload Picture")])
-      ])
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", [_vm._v("Upload Picture")])
     ])
   }
 ]
