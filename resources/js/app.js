@@ -28,6 +28,10 @@ const router = new VueRouter({
             path: '/profile/upload-picture',
             component: UploadPicture,
             name: 'picture'
+        },
+        {
+            path: '/',
+            redirect: '/profile/edit-profile',
         }
     ]
 });

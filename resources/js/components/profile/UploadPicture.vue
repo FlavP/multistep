@@ -4,40 +4,46 @@
             <h3>Upload Picture</h3>
         </div>
         <form
-            action="/change-picture"
+            action="/profile-picture"
             method="post"
             enctype="multipart/form-data"
             novalidate
         >
-            <input type="hidden" :value="userid">
             <input
                 type="file"
-                :name="profilePicture"
+                name="profile_picture"
+                id="profile_picture"
                 accept="image/*"
-                :disabled="isUploading"
                 class="profile-picture"
+                :disabled="isUploading"
             >
-            <p
-                class="initial"
-                v-if="isInitial"
-            >404 Not Found</p>
+            <img
+                alt="Profile picture"
+                class="rounded-circle img-thumbnail"
+                :src="picture"
+            >
+            <button type="submit" class="btn btn-outline-dark">
+                Set Profile Picture
+            </button>
         </form>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['userid'],
+        props: ['picture'],
         name: "UploadPicture",
         data() {
             return {
-                isInitial : true,
-                isUploading : false
+                isUploading: false
             }
         }
     }
 </script>
 
-<style lang="sass" scoped>
+<style lang="css" scoped>
 
+    form {
+        background-color: #f8fafc;
+    }
 </style>

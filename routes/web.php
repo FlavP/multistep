@@ -22,5 +22,8 @@ Route::group(['middleware' => 'web'], function () {
     Auth::routes(['register' => false]);
 
     Route::get('/', 'HomeController@index')->name('home');
+
+    // User Profile Routes
     Route::get('/profile/{any}', 'HomeController@index')->where('any', '.*');
+    Route::post('/profile-picture', 'StaffController@changePicture');
 });
