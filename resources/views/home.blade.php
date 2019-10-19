@@ -1,25 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-        <div id="app">
-            <user-add></user-add>
+    <div id="app">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 offset-md-3">
+                    @if (auth()->check())
+                        @if (auth()->user()->role === 'admin')
+                            <router-link :to="{ name: 'add' }" class="btn btn-outline-info">Add a new User
+                            </router-link>
+                        @endif
+                    @endif
+                    <router-link :to="{ name: 'edit' }" class="btn btn-outline-info">Change your Information
+                    </router-link>
+                    <router-link :to="{ name: 'picture' }" class="btn btn-outline-info">Upload a picture
+                    </router-link>
+                </div>
+                <div class="col-md-5 offset-md-3">
+                    <router-view :picture="{{ json_encode(asset($profilePicture)) }}"></router-view>
+                </div>
+            </div>
         </div>
-{{--        <div class="col-md-8">--}}
-{{--            <div class="card">--}}
-{{--                <div class="card-header">Dashboard</div>--}}
+    </div>
 
-{{--                <div class="card-body">--}}
-{{--                    @if (session('status'))--}}
-{{--                        <div class="alert alert-success" role="alert">--}}
-{{--                            {{ session('status') }}--}}
-{{--                        </div>--}}
-{{--                    @endif--}}
-
-{{--                    You are logged in!--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-        <script src="{{ asset('js/app.js') }}"></script>
-</div>
 @endsection

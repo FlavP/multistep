@@ -2,7 +2,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h3>Add User</h3>
+                    <h3>Edit Profile</h3>
                 </div>
             </div>
 
@@ -10,7 +10,7 @@
 
 <script>
     export default {
-        name: "UserAdd"
+        name: "EditProfile"
     }
 </script>
 
