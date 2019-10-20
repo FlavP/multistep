@@ -14,7 +14,7 @@ trait PictureUploadTrait
         if ($folder === null)
             //Define folder path if folder is not set
             $folder = config('constants.UPLOAD_PICTURE_DIRECTORY');
-        $file = $uploadedFile->storeAs($folder, $filename . '.' . $uploadedFile->getClientOriginalExtension(), $disk);
+        $file = $uploadedFile->storeAs($folder, $filename, $disk);
         return $file;
     }
 

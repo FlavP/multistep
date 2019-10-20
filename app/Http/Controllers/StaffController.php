@@ -23,14 +23,18 @@ class StaffController extends Controller
             // Get image from post request
             $image = $request->file('profile_picture');
             // Make an image name based on user name and timestamp
-            $fileName = Str::slug($user->name) . '_' . time() . $image->getClientOriginalExtension();
+            $fileName = Str::slug($user->name) . '_' . time() . '.' . $image->getClientOriginalExtension();
             // Upload image
             $this->uploadPicture($image, null, $fileName);
             // Delete old picture
             if ($user->picture)
                 $this->deletePicture(null, $user->picture);
             $user->picture = $fileName;
-            return redirect()->back()->with(['status' => 'Picture has been changed successfully']);
+            $user->save();
+            return [
+                'status' => true,
+                'message' => 'Picture has been changed successfully'
+            ];
         }
     }
 }

@@ -10,7 +10,7 @@
 
 <script>
     export default {
-        name: "EditProfile"
+        name: "EditProfile",
     }
 </script>
 
