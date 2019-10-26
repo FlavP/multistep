@@ -18,6 +18,7 @@
                 </div>
                 <div class="col-md-5 offset-md-3">
                     <router-view :picture="{{ json_encode(asset($profilePicture)) }}"></router-view>
+                    <router-view :edit="{{ $userData }}"></router-view>
                 </div>
             </div>
         </div>

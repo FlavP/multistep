@@ -37,4 +37,11 @@ class StaffController extends Controller
             ];
         }
     }
+
+    /**
+     * @param Request $request
+     */
+    public function setUser(Request $request){
+        $aData = $request->all();
+    }
 }
