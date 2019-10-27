@@ -7,12 +7,13 @@ const headers = {
 };
 const sendRequest = ((url, data = {}, headers = headers) => {
     let responseData = '';
-    axios.post(url, data, {headers})
+    return axios.post(url, data, {headers})
         .then( response => {
-            if (response.data.status)
-                alert(response.data.message);
+            if (response.data.success){
+                return response.data;
+            }
             else {
-                alert("SOmething went wrong");
+                alert("Something went wrong");
             }
         }).catch( error => {
             console.log(error);

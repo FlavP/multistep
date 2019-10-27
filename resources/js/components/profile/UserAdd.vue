@@ -10,6 +10,10 @@
         >
             <div class="row">
                 <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                    <input type="hidden"
+                           name="edit"
+                           id="edit"
+                           v-model="userData.edit">
                     <div class="form-group" :class="{invalid: $v.username.$error}">
                         <label for="username">Add the name for the user: </label>
                         <input type="text"
@@ -114,8 +118,22 @@
                     role: this.userData.map(role => role.value),
                     password: this.userData.password,
                     confirmPassword: this.userData.confirmPassword,
+                    active: this.userData.isActive,
+                    edit: false
                 };
-                sendRequest('/set-user', formData);
+                const addUser = sendRequest('/set-user', formData);
+                addUser.then(response => {
+                    if (response.success){
+                        alert(response.message);
+                        Object.keys(this.userData).forEach(key => {
+                            if (!Array.isArray(this.userData[key])) {
+                                this.userData[key] = '';
+                            }
+                        });
+                        this.userData.isActive = true;
+                    } else
+                        alert(response.message);
+                });
             }
         },
         validations: {

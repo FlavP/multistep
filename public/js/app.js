@@ -1838,6 +1838,9 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _services_webServices__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/webServices */ "./resources/js/components/services/webServices.js");
 //
 //
 //
@@ -1848,8 +1851,104 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "EditProfile"
+  name: "EditProfile",
+  data: function data() {
+    return {
+      userData: {
+        password: '',
+        newPassword: '',
+        confirmNew: ''
+      }
+    };
+  },
+  methods: {
+    onSubmit: function onSubmit() {
+      var _this = this;
+
+      var formData = {
+        password: this.userData.password,
+        "new": this.userData.newPassword,
+        confirm: this.userData.confirmNew,
+        edit: true
+      };
+      var editUser = Object(_services_webServices__WEBPACK_IMPORTED_MODULE_1__["sendRequest"])('/set-user', formData);
+      editUser.then(function (response) {
+        if (response.success) {
+          alert(response.message);
+          Object.keys(_this.userData).forEach(function (key) {
+            if (!Array.isArray(_this.userData[key])) {
+              _this.userData[key] = '';
+            }
+          });
+          _this.userData.isActive = true;
+        } else alert(response.message);
+      });
+    }
+  },
+  validations: {
+    password: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+    },
+    newPassword: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      minLength: 5
+    },
+    confirmNew: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      sameAsPassword: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["sameAs"])('newPassword')
+    }
+  }
 });
 
 /***/ }),
@@ -1914,8 +2013,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['picture'],
   name: "UploadPicture",
+  props: ['picture'],
   data: function data() {
     return {
       file: ''
@@ -1937,7 +2036,10 @@ __webpack_require__.r(__webpack_exports__);
       if (this.file === '') return; // Fac append cu cheia pe care trimit in backend
 
       formData.append('profile_picture', this.file);
-      Object(_services_webServices__WEBPACK_IMPORTED_MODULE_0__["sendRequest"])('/profile-picture', formData, headers);
+      var changePicture = Object(_services_webServices__WEBPACK_IMPORTED_MODULE_0__["sendRequest"])('/profile-picture', formData, headers);
+      changePicture.then(function (response) {
+        if (response.status) alert(response.message);
+      });
       this.$router.go(0);
     },
     handleUpload: function handleUpload() {
@@ -1961,6 +2063,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _services_webServices__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/webServices */ "./resources/js/components/services/webServices.js");
+//
+//
+//
+//
 //
 //
 //
@@ -2072,6 +2178,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     onSubmit: function onSubmit() {
+      var _this = this;
+
       var formData = {
         username: this.userData.username,
         email: this.userData.email,
@@ -2079,9 +2187,22 @@ __webpack_require__.r(__webpack_exports__);
           return role.value;
         }),
         password: this.userData.password,
-        confirmPassword: this.userData.confirmPassword
+        confirmPassword: this.userData.confirmPassword,
+        active: this.userData.isActive,
+        edit: false
       };
-      Object(_services_webServices__WEBPACK_IMPORTED_MODULE_1__["sendRequest"])('/set-user', formData);
+      var addUser = Object(_services_webServices__WEBPACK_IMPORTED_MODULE_1__["sendRequest"])('/set-user', formData);
+      addUser.then(function (response) {
+        if (response.success) {
+          alert(response.message);
+          Object.keys(_this.userData).forEach(function (key) {
+            if (!Array.isArray(_this.userData[key])) {
+              _this.userData[key] = '';
+            }
+          });
+          _this.userData.isActive = true;
+        } else alert(response.message);
+      });
     }
   },
   validations: {
@@ -38045,17 +38166,198 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "card" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        attrs: { method: "post" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.onSubmit($event)
+          }
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass:
+              "col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3"
+          },
+          [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.userData.edit,
+                  expression: "userData.edit"
+                }
+              ],
+              attrs: { type: "hidden", name: "edit", id: "edit" },
+              domProps: { value: _vm.userData.edit },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.userData, "edit", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "form-group",
+                class: { invalid: _vm.$v.password.$error }
+              },
+              [
+                _c("label", { attrs: { for: "password" } }, [
+                  _vm._v("Enter your current Password: ")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.userData.password,
+                      expression: "userData.password"
+                    }
+                  ],
+                  attrs: {
+                    type: "password",
+                    name: "password",
+                    id: "password",
+                    placeholder: "Password"
+                  },
+                  domProps: { value: _vm.userData.password },
+                  on: {
+                    blur: function($event) {
+                      return _vm.$v.password.touch()
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.userData, "password", $event.target.value)
+                    }
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "form-group",
+                class: { invalid: _vm.$v.newPassword.$error }
+              },
+              [
+                _c("label", { attrs: { for: "password" } }, [
+                  _vm._v("Enter your new Password: ")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.userData.newPassword,
+                      expression: "userData.newPassword"
+                    }
+                  ],
+                  attrs: {
+                    type: "password",
+                    name: "newpassword",
+                    id: "newpassword",
+                    placeholder: "New Password"
+                  },
+                  domProps: { value: _vm.userData.newPassword },
+                  on: {
+                    blur: function($event) {
+                      return _vm.$v.newPassword.touch()
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.userData, "newPassword", $event.target.value)
+                    }
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "form-group",
+                class: { invalid: _vm.$v.confirmNew.$error }
+              },
+              [
+                _c("label", { attrs: { for: "password" } }, [
+                  _vm._v("Confirm your new Password: ")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.userData.confirmNew,
+                      expression: "userData.confirmNew"
+                    }
+                  ],
+                  attrs: {
+                    type: "password",
+                    name: "confirm",
+                    id: "confirm",
+                    placeholder: "Confirm Password"
+                  },
+                  domProps: { value: _vm.userData.confirmNew },
+                  on: {
+                    blur: function($event) {
+                      return _vm.$v.confirmNew.touch()
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.userData, "confirmNew", $event.target.value)
+                    }
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-outline-dark",
+                  attrs: { type: "submit", disabled: _vm.$v.$invalid }
+                },
+                [_vm._v("Submit")]
+              )
+            ])
+          ]
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _c("h3", [_vm._v("Edit Profile")])
-      ])
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", [_vm._v("Edit Profile")])
     ])
   }
 ]
@@ -38195,6 +38497,27 @@ var render = function() {
                 "col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3"
             },
             [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.userData.edit,
+                    expression: "userData.edit"
+                  }
+                ],
+                attrs: { type: "hidden", name: "edit", id: "edit" },
+                domProps: { value: _vm.userData.edit },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.userData, "edit", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
               _c(
                 "div",
                 {
@@ -55860,11 +56183,13 @@ var sendRequest = function sendRequest(url) {
   var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : headers;
   var responseData = '';
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, data, {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, data, {
     headers: headers
   }).then(function (response) {
-    if (response.data.status) alert(response.data.message);else {
-      alert("SOmething went wrong");
+    if (response.data.success) {
+      return response.data;
+    } else {
+      alert("Something went wrong");
     }
   })["catch"](function (error) {
     console.log(error);

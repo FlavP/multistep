@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\StaffRepository;
 use App\Traits\PictureUploadTrait;
 use App\User;
 use Illuminate\Http\Request;
@@ -11,6 +12,15 @@ use Illuminate\Support\Str;
 class StaffController extends Controller
 {
     use PictureUploadTrait;
+    private $staffRepo;
+
+    /**
+     * StaffController constructor.
+     */
+    public function __construct()
+    {
+        $this->staffRepo = new StaffRepository();
+    }
 
     /**
      * @param Request $request
@@ -32,7 +42,7 @@ class StaffController extends Controller
             $user->picture = $fileName;
             $user->save();
             return [
-                'status' => true,
+                'success' => true,
                 'message' => 'Picture has been changed successfully'
             ];
         }
@@ -42,6 +52,12 @@ class StaffController extends Controller
      * @param Request $request
      */
     public function setUser(Request $request){
+        $response = '';
         $aData = $request->all();
+        $aData['user_id'] = Auth::user()->id;
+        if ($aData['edit'])
+            $response = $this->staffRepo->editUser($aData);
+        else
+            $response = $this->staffRepo->newUser($aData);
     }
 }

@@ -50,8 +50,8 @@
     import {sendRequest} from "../services/webServices";
 
     export default {
-        props: ['picture'],
         name: "UploadPicture",
+        props: ['picture'],
         data() {
             return {
                 file : '',
@@ -74,7 +74,12 @@
                     return;
                 // Fac append cu cheia pe care trimit in backend
                 formData.append('profile_picture', this.file);
-                sendRequest('/profile-picture', formData, headers);
+                const changePicture = sendRequest('/profile-picture', formData, headers);
+                changePicture
+                    .then(response => {
+                    if (response.status)
+                        alert(response.message);
+                });
                 this.$router.go(0);
             },
             handleUpload() {

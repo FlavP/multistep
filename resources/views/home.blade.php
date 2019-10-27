@@ -16,9 +16,10 @@
                     <router-link :to="{ name: 'picture' }" class="btn btn-outline-info">Upload a picture
                     </router-link>
                 </div>
-                <div class="col-md-5 offset-md-3">
-                    <router-view :picture="{{ json_encode(asset($profilePicture)) }}"></router-view>
-                    <router-view :edit="{{ $userData }}"></router-view>
+                <div class="col-md-6 offset-md-3">
+                    <router-view
+                        :picture="{{ json_encode(asset($profilePicture)) }}"
+                    ></router-view>
                 </div>
             </div>
         </div>
