@@ -10,19 +10,17 @@
         >
             <div class="row">
                 <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                    <input type="hidden"
-                           name="edit"
-                           id="edit"
-                           v-model="userData.edit">
-                    <div class="form-group" :class="{invalid: $v.username.$error}">
+                    <div class="form-group input" :class="{invalid: $v.username.$error}">
                         <label for="username">Add the name for the user: </label>
                         <input type="text"
                                name="username"
                                id="username"
                                placeholder="User Name"
-                               @blur="$v.username.touch()"
-                               v-model="userData.username"
-                        >
+                               v-model="username"
+                               @blur="$v.username.$touch()">
+                        <p v-if="!$v.username.required">The user name is required</p>
+                        <p v-if="!$v.username.minLen">The user name must be at least {{ $v.username.$params.minLen.min
+                            }} characters long</p>
                     </div>
                     <div class="form-group" :class="{invalid: $v.email.$error}">
                         <label for="email">Enter User Email: </label>
@@ -30,14 +28,14 @@
                                name="email"
                                id="email"
                                placeholder="User Email"
-                               @blur="$v.email.touch()"
-                               v-model="userData.email"
+                               @blur="$v.email.$touch()"
+                               v-model="email"
                         >
                     </div>
                     <div class="form-group">
                         <label for="roles">Select User Role</label>
-                        <select class="form-control" id="roles" v-model="userData.selected">
-                            <option v-for="role in userData.role" v-bind:value="role.value">{{role.text}}</option>
+                        <select class="form-control" id="roles" v-model="selected">
+                            <option v-for="role in roles" v-bind:value="role.value">{{role.text}}</option>
                         </select>
                     </div>
                     <div class="form-group" :class="{invalid: $v.password.$error}">
@@ -46,8 +44,8 @@
                                name="password"
                                id="password"
                                placeholder="Password"
-                               @blur="$v.password.touch()"
-                               v-model="userData.password"
+                               @blur="$v.password.$touch()"
+                               v-model="password"
                         >
                     </div>
                     <div class="form-group" :class="{invalid: $v.confirmPassword.$error}">
@@ -56,19 +54,21 @@
                                name="confirm"
                                id="confirm"
                                placeholder="Confirm Password"
-                               @blur="$v.confirmPassword.touch()"
-                               v-model="userData.confirmPassword"
+                               @blur="$v.confirmPassword.$touch()"
+                               v-model="confirmPassword"
                         >
                     </div>
                     <div class="form-group">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="active" id="active" value="true" v-model="userData.isActive" checked>
+                            <input class="form-check-input" type="radio" name="active" id="active" value="true"
+                                   v-model="isActive" checked>
                             <label class="form-check-label" for="active">
                                 Active
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="active" id="inactive" value="false" v-model="userData.isActive">
+                            <input class="form-check-input" type="radio" name="active" id="inactive" value="false"
+                                   v-model="isActive">
                             <label class="form-check-label" for="inactive">
                                 Inactive
                             </label>
@@ -79,7 +79,8 @@
                             type="submit"
                             class="btn btn-outline-dark"
                             :disabled="$v.$invalid"
-                        >Submit</button>
+                        >Submit
+                        </button>
                     </div>
                 </div>
             </div>
@@ -89,74 +90,86 @@
 </template>
 
 <script>
-    import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
+    import {validationMixin} from 'vuelidate';
+    import {required, email, minLength, sameAs} from 'vuelidate/lib/validators';
     import {sendRequest} from "../services/webServices";
 
     export default {
         name: "UserAdd",
+        mixins: [validationMixin],
         data() {
             return {
-                userData: {
-                    username: '',
-                    email: '',
-                    selected: 'operator',
-                    role: [
-                        { text : 'operator', value: 'operator' },
-                        { text : 'admin', value: 'admin' }
-                    ],
-                    isActive: true,
-                    password: '',
-                    confirmPassword: '',
-                }
+                username: '',
+                email: '',
+                selected: 'operator',
+                roles: [
+                    {text: 'operator', value: 'operator'},
+                    {text: 'admin', value: 'admin'}
+                ],
+                isActive: true,
+                password: '',
+                confirmPassword: '',
             }
         },
         methods: {
             onSubmit() {
                 const formData = {
-                    username: this.userData.username,
-                    email: this.userData.email,
-                    role: this.userData.map(role => role.value),
-                    password: this.userData.password,
-                    confirmPassword: this.userData.confirmPassword,
-                    active: this.userData.isActive,
+                    username: this.username,
+                    email: this.email,
+                    role: this.roles.map(role => role.value),
+                    password: this.password,
+                    confirmPassword: this.confirmPassword,
+                    active: this.isActive,
                     edit: false
                 };
                 const addUser = sendRequest('/set-user', formData);
                 addUser.then(response => {
-                    if (response.success){
+                    if (response.success) {
                         alert(response.message);
-                        Object.keys(this.userData).forEach(key => {
-                            if (!Array.isArray(this.userData[key])) {
-                                this.userData[key] = '';
-                            }
-                        });
-                        this.userData.isActive = true;
+                        this.resetValues();
                     } else
                         alert(response.message);
                 });
-            }
+            },
+            resetValues() {
+                this.username = '';
+                this.password = '';
+                this.confirmPassword = '';
+                this.email = '';
+                this.selected = 'operator';
+                this.isActive = true;
+            },
         },
-        validations: {
-            username: {
-                required,
-                minLength: 4,
-            },
-            email: {
-                required,
-                email
-            },
-            password: {
-                required,
-                minLength: 5
-            },
-            confirmPassword: {
-                required,
-                sameAsPassword: sameAs('password')
+        validations() {
+            return {
+                username: {
+                    required,
+                    minLen: minLength(4),
+                },
+                email: {
+                    required,
+                    email
+                },
+                password: {
+                    required,
+                    minLen: minLength(5)
+                },
+                confirmPassword: {
+                    required,
+                    sameAsPassword: sameAs('password')
+                }
             }
         }
     }
 </script>
 
-<style scoped>
+<style>
+    .input.invalid input {
+        border: 1px solid red;
+        background-color: #ffc9aa;
+    }
 
+    .input.invalid label {
+        color: red;
+    }
 </style>

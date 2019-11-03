@@ -3,7 +3,6 @@ require('./bootstrap');
 //Libraries
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Vuelidate from "vuelidate/src";
 
 //My Components
 import UserAdd from "./components/profile/UserAdd";
@@ -11,7 +10,6 @@ import EditProfile from "./components/profile/EditProfile";
 import UploadPicture from "./components/profile/UploadPicture";
 
 Vue.use(VueRouter);
-Vue.use(Vuelidate);
 
 const router = new VueRouter({
     mode: 'history',
