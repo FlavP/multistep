@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Traits\PictureUploadTrait;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     use PictureUploadTrait;
+    private $staffRepo;
 
     /**
      * Create a new controller instance.
@@ -28,8 +28,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $userId = Auth::user()->id;
         // Get authenticated user
-        $user = User::find(Auth::user()->id);
+        $user = User::find($userId);
         $profilePicture = $this->getPicture(null, $user->picture);
         return view('home', ['profilePicture' => $profilePicture]);
     }

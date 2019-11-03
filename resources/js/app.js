@@ -38,6 +38,6 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    components: {UserAdd, EditProfile},
+    components: {UserAdd, EditProfile, UploadPicture},
     router,
 });
