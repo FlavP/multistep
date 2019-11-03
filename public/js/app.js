@@ -2168,14 +2168,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       username: '',
       email: '',
-      selected: 'operator',
-      roles: [{
-        text: 'operator',
-        value: 'operator'
-      }, {
-        text: 'admin',
-        value: 'admin'
-      }],
+      selectedRole: 'operator',
+      roles: ['operator', 'admin'],
       isActive: true,
       password: '',
       confirmPassword: ''
@@ -2188,9 +2182,7 @@ __webpack_require__.r(__webpack_exports__);
       var formData = {
         username: this.username,
         email: this.email,
-        role: this.roles.map(function (role) {
-          return role.value;
-        }),
+        role: this.selectedRole,
         password: this.password,
         confirmPassword: this.confirmPassword,
         active: this.isActive,
@@ -2210,7 +2202,7 @@ __webpack_require__.r(__webpack_exports__);
       this.password = '';
       this.confirmPassword = '';
       this.email = '';
-      this.selected = 'operator';
+      this.selectedRole = 'operator';
       this.isActive = true;
     }
   },
@@ -38705,8 +38697,8 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.selected,
-                        expression: "selected"
+                        value: _vm.selectedRole,
+                        expression: "selectedRole"
                       }
                     ],
                     staticClass: "form-control",
@@ -38721,16 +38713,14 @@ var render = function() {
                             var val = "_value" in o ? o._value : o.value
                             return val
                           })
-                        _vm.selected = $event.target.multiple
+                        _vm.selectedRole = $event.target.multiple
                           ? $$selectedVal
                           : $$selectedVal[0]
                       }
                     }
                   },
                   _vm._l(_vm.roles, function(role) {
-                    return _c("option", { domProps: { value: role.value } }, [
-                      _vm._v(_vm._s(role.text))
-                    ])
+                    return _c("option", [_vm._v(_vm._s(role))])
                   }),
                   0
                 )

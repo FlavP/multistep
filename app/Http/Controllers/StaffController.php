@@ -59,5 +59,6 @@ class StaffController extends Controller
             $response = $this->staffRepo->editUser($aData);
         else
             $response = $this->staffRepo->newUser($aData);
+        return $response;
     }
 }

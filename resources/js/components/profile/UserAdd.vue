@@ -34,8 +34,8 @@
                     </div>
                     <div class="form-group">
                         <label for="roles">Select User Role</label>
-                        <select class="form-control" id="roles" v-model="selected">
-                            <option v-for="role in roles" v-bind:value="role.value">{{role.text}}</option>
+                        <select class="form-control" id="roles" v-model="selectedRole">
+                            <option v-for="role in roles">{{role}}</option>
                         </select>
                     </div>
                     <div class="form-group" :class="{invalid: $v.password.$error}">
@@ -101,11 +101,8 @@
             return {
                 username: '',
                 email: '',
-                selected: 'operator',
-                roles: [
-                    {text: 'operator', value: 'operator'},
-                    {text: 'admin', value: 'admin'}
-                ],
+                selectedRole: 'operator',
+                roles: ['operator', 'admin'],
                 isActive: true,
                 password: '',
                 confirmPassword: '',
@@ -116,7 +113,7 @@
                 const formData = {
                     username: this.username,
                     email: this.email,
-                    role: this.roles.map(role => role.value),
+                    role: this.selectedRole,
                     password: this.password,
                     confirmPassword: this.confirmPassword,
                     active: this.isActive,
@@ -136,7 +133,7 @@
                 this.password = '';
                 this.confirmPassword = '';
                 this.email = '';
-                this.selected = 'operator';
+                this.selectedRole = 'operator';
                 this.isActive = true;
             },
         },
