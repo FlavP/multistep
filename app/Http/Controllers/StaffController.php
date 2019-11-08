@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Repositories\StaffRepository;
 use App\Traits\PictureUploadTrait;
 use App\User;
@@ -20,6 +21,12 @@ class StaffController extends Controller
     public function __construct()
     {
         $this->staffRepo = new StaffRepository();
+    }
+
+
+    public function index() {
+        $clients = Client::all();
+        return view('operations', ['clients' => $clients]);
     }
 
     /**

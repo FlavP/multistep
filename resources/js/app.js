@@ -8,6 +8,7 @@ import VueRouter from 'vue-router';
 import UserAdd from "./components/profile/UserAdd";
 import EditProfile from "./components/profile/EditProfile";
 import UploadPicture from "./components/profile/UploadPicture";
+import UserDashboard from "./components/operations/UserDashboard";
 
 Vue.use(VueRouter);
 
@@ -40,4 +41,9 @@ const app = new Vue({
     el: '#app',
     components: {UserAdd, EditProfile, UploadPicture},
     router,
+});
+
+const dash = new Vue({
+    el: '#dash',
+    components: {UserDashboard}
 });
