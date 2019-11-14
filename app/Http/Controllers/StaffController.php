@@ -25,7 +25,31 @@ class StaffController extends Controller
 
 
     public function index() {
-        $clients = Client::all();
+        $clients = [];
+        $clients['columns'] = [
+            [
+                'name' => 'Name',
+                'filterable' => true,
+            ],
+            [
+                'name' => 'Age',
+                'sortable' => true
+            ],
+            [
+                'name' => 'Email',
+                'filterable' => true
+            ],
+            [
+                'name' => 'Married'
+            ],
+            [
+                'name' => 'Partner Name'
+            ],
+            [
+                'name' => 'Actions'
+            ]
+        ];
+        $clients['data'] = Client::orderBy('id', 'asc')->paginate(50);
         return view('operations', ['clients' => $clients]);
     }
 

@@ -1881,6 +1881,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['clients'],
   name: "UserDashboard"
@@ -38326,67 +38330,92 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-11" }, [
+        _c("table", { staticClass: "table" }, [
+          _c("thead", { staticClass: "thead-light" }, [
+            _c(
+              "tr",
+              _vm._l(_vm.clients.columns, function(name) {
+                return _c("th", [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(name.name) +
+                      "\n                        "
+                  ),
+                  name.filterable
+                    ? _c("span", [
+                        _c("i", { staticClass: "mr-5 fas fa-search" })
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  name.sortable
+                    ? _c("span", [_c("i", { staticClass: "mr-5 fas fa-sort" })])
+                    : _vm._e()
+                ])
+              }),
+              0
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(0)
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._m(1)
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container-fluid" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-11" }, [
-          _c("table", { staticClass: "table" }, [
-            _c("thead", { staticClass: "thead-light" }, [
-              _c("tr", [
-                _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
-                _vm._v(" "),
-                _c("th", { attrs: { scope: "col" } }, [_vm._v("First")]),
-                _vm._v(" "),
-                _c("th", { attrs: { scope: "col" } }, [_vm._v("Last")]),
-                _vm._v(" "),
-                _c("th", { attrs: { scope: "col" } }, [_vm._v("Handle")])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("tbody", [
-              _c("tr", [
-                _c("th", { attrs: { scope: "row" } }, [_vm._v("1")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("Mark")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("Otto")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("@mdo")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("th", { attrs: { scope: "row" } }, [_vm._v("2")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("Jacob")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("Thornton")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("@fat")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("th", { attrs: { scope: "row" } }, [_vm._v("3")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("Larry")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("the Bird")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("@twitter")])
-              ])
-            ])
-          ])
-        ]),
+    return _c("tbody", [
+      _c("tr", [
+        _c("td", [_vm._v("Mark")]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-1" }, [
-          _c("i", { staticClass: "fas fa-adjust" })
-        ])
+        _c("td", [_vm._v("Otto")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("@mdo")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("@mdo")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("@mdo")])
+      ]),
+      _vm._v(" "),
+      _c("tr", [
+        _c("td", [_vm._v("Jacob")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Thornton")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("@fat")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("@fat")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("@fat")])
+      ]),
+      _vm._v(" "),
+      _c("tr", [
+        _c("td", [_vm._v("Larry")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("the Bird")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("@twitter")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("@twitter")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("@twitter")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-1" }, [
+      _c("i", { staticClass: "far fa-file-excel fa-2x" })
     ])
   }
 ]
