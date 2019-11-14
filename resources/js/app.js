@@ -39,11 +39,7 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    components: {UserAdd, EditProfile, UploadPicture},
+    components: {UserAdd, EditProfile, UploadPicture, UserDashboard},
     router,
 });
 
-const dash = new Vue({
-    el: '#dash',
-    components: {UserDashboard}
-});
