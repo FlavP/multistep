@@ -14,26 +14,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td>@fat</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                        <td>@twitter</td>
-                        <td>@twitter</td>
+                    <tr v-for="client in clients.data">
+                        <td>{{ client.name }}</td>
+                        <td>{{ client.age }}</td>
+                        <td>{{ client.email }}</td>
+                        <td>{{ client.married }}</td>
+                        <td>{{ client.partner }}</td>
+                        <td>actions</td>
                     </tr>
                     </tbody>
                 </table>

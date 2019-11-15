@@ -1872,19 +1872,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['clients'],
   name: "UserDashboard"
@@ -38359,57 +38346,33 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(0)
+          _c(
+            "tbody",
+            _vm._l(_vm.clients.data, function(client) {
+              return _c("tr", [
+                _c("td", [_vm._v(_vm._s(client.name))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(client.age))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(client.email))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(client.married))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(client.partner))]),
+                _vm._v(" "),
+                _c("td", [_vm._v("actions")])
+              ])
+            }),
+            0
+          )
         ])
       ]),
       _vm._v(" "),
-      _vm._m(1)
+      _vm._m(0)
     ])
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tbody", [
-      _c("tr", [
-        _c("td", [_vm._v("Mark")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("Otto")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("@mdo")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("@mdo")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("@mdo")])
-      ]),
-      _vm._v(" "),
-      _c("tr", [
-        _c("td", [_vm._v("Jacob")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("Thornton")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("@fat")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("@fat")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("@fat")])
-      ]),
-      _vm._v(" "),
-      _c("tr", [
-        _c("td", [_vm._v("Larry")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("the Bird")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("@twitter")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("@twitter")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("@twitter")])
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
