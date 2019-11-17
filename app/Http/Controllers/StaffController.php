@@ -25,6 +25,11 @@ class StaffController extends Controller
 
 
     public function index() {
+
+        return view('operations');
+    }
+
+    public function getClients() {
         $clients = [];
         $clients['columns'] = [
             [
@@ -49,8 +54,8 @@ class StaffController extends Controller
                 'name' => 'Actions'
             ]
         ];
-        $clients['data'] = Client::orderBy('id', 'asc')->paginate(50);
-        return view('operations', ['clients' => $clients]);
+        $clients['client_set'] = Client::orderBy('id', 'asc')->paginate(15);
+        return $clients;
     }
 
     /**

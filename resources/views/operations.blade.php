@@ -2,6 +2,6 @@
 
 @section('content')
     <div id="app">
-        <user-dashboard :clients="{{ json_encode($clients) }}"></user-dashboard>
+        <user-dashboard></user-dashboard>
     </div>
 @endsection

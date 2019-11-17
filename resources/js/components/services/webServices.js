@@ -6,7 +6,6 @@ const headers = {
     'Content-Type': 'application/json'
 };
 const sendRequest = ((url, data = {}, headers = headers) => {
-    let responseData = '';
     return axios.post(url, data, {headers})
         .then( response => {
             if (response.data.success){
@@ -18,12 +17,11 @@ const sendRequest = ((url, data = {}, headers = headers) => {
         }).catch( error => {
             console.log(error);
     });
-    return responseData;
 });
 
 // Pentru GET
 const sendGetRequest = ((url, params = {}) => {
-    axios.get(url, {
+    return axios.get(url, {
         params
     }).then( response => {
         return response;

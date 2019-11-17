@@ -1838,6 +1838,7 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _services_webServices__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/webServices */ "./resources/js/components/services/webServices.js");
 //
 //
 //
@@ -1872,9 +1873,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['clients'],
-  name: "UserDashboard"
+  name: "UserDashboard",
+  created: function created() {
+    this.getClients();
+  },
+  data: function data() {
+    return {
+      columns: [],
+      clients: {},
+      pagination: {}
+    };
+  },
+  methods: {
+    // Ca sa nu mai dau clientii prin props
+    getClients: function getClients(page_url) {
+      var _this = this;
+
+      var vm = this;
+      var url = page_url || '/get-clients';
+      var response = Object(_services_webServices__WEBPACK_IMPORTED_MODULE_0__["sendGetRequest"])(url);
+      response.then(function (result) {
+        _this.columns = result.data.columns;
+        _this.clients = result.data.client_set.data;
+        console.log(result.data.client_set.meta);
+        vm.paginate(result.data.client_set.meta, result.data.client_set.links);
+      });
+    },
+    paginate: function paginate(meta, links) {
+      var pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next_page_url,
+        prev_page_url: links.prev_page_url
+      };
+      console.log(pagination);
+      this.pagination = pagination;
+    }
+  }
 });
 
 /***/ }),
@@ -38324,7 +38372,7 @@ var render = function() {
           _c("thead", { staticClass: "thead-light" }, [
             _c(
               "tr",
-              _vm._l(_vm.clients.columns, function(name) {
+              _vm._l(_vm.columns, function(name) {
                 return _c("th", [
                   _vm._v(
                     "\n                        " +
@@ -38348,7 +38396,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "tbody",
-            _vm._l(_vm.clients.data, function(client) {
+            _vm._l(_vm.clients, function(client) {
               return _c("tr", [
                 _c("td", [_vm._v(_vm._s(client.name))]),
                 _vm._v(" "),
@@ -38369,7 +38417,9 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm._m(0)
-    ])
+    ]),
+    _vm._v(" "),
+    _vm._m(1)
   ])
 }
 var staticRenderFns = [
@@ -38379,6 +38429,24 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-1" }, [
       _c("i", { staticClass: "far fa-file-excel fa-2x" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("nav", { attrs: { "aria-label": "Pagination" } }, [
+          _c("ul", { staticClass: "pagination" }, [
+            _c("li"),
+            _vm._v(" "),
+            _c("li"),
+            _vm._v(" "),
+            _c("li")
+          ])
+        ])
+      ])
     ])
   }
 ]
@@ -56487,7 +56555,6 @@ var headers = {
 var sendRequest = function sendRequest(url) {
   var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : headers;
-  var responseData = '';
   return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, data, {
     headers: headers
   }).then(function (response) {
@@ -56499,13 +56566,12 @@ var sendRequest = function sendRequest(url) {
   })["catch"](function (error) {
     console.log(error);
   });
-  return responseData;
 }; // Pentru GET
 
 
 var sendGetRequest = function sendGetRequest(url) {
   var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url, {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url, {
     params: params
   }).then(function (response) {
     return response;

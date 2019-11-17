@@ -18,6 +18,7 @@ Route::group(['middleware' => 'web'], function () {
 //    });
 
     Route::get('/operations', 'StaffController@index')->middleware('operator');
+    Route::get('/get-clients', 'StaffController@getClients');
 
     Auth::routes(['register' => false]);
 
