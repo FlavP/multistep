@@ -30,12 +30,38 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6 offset-5">
                 <nav aria-label="Pagination">
                     <ul class="pagination">
-                        <li></li>
-                        <li></li>
-                        <li></li>
+                        <li
+                            v-bind:class="[{disabled: !pagination.prev_page_url}]"
+                            class="page-item">
+                            <a href="#"
+                               class="page-link"
+                               @click="getClients(pagination.prev_page_url)"
+                            >Previous</a></li>
+                        <li class="page-item disabled">
+                            <a class="page-link text-dark" href="#">
+                                Page {{ pagination.current_page }} of {{ pagination.last_page }}
+                            </a>
+                        </li>
+                        <li
+                            v-bind:class="[{disabled: !pagination.next_page_url}]"
+                            class="page-item">
+                            <a href="#"
+                               class="page-link"
+                               @click="getClients(pagination.next_page_url)"
+                            >Previous</a></li>
+                        <li class="page-item">
+                            <input type="text" id="pageno" name="pageno" class="form-control form-control-md w-25">
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                class="page-link"
+                                @click="goToPage()"
+                            >Go to</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -77,7 +103,6 @@
                 });
             },
             paginate(meta, links) {
-                console.log(links);
                 let pagination = {
                     current_page: meta.current_page,
                     last_page: meta.last_page,
