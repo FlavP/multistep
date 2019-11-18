@@ -1892,7 +1892,23 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      columns: [],
+      columns: [{
+        name: 'Name',
+        filterable: true
+      }, {
+        name: 'Age',
+        sortable: true
+      }, {
+        name: 'Email',
+        filterable: true
+      }, {
+        name: 'Married',
+        filterable: true
+      }, {
+        name: 'Partner Name'
+      }, {
+        name: 'Actions'
+      }],
       clients: {},
       pagination: {}
     };
@@ -1906,20 +1922,18 @@ __webpack_require__.r(__webpack_exports__);
       var url = page_url || '/get-clients';
       var response = Object(_services_webServices__WEBPACK_IMPORTED_MODULE_0__["sendGetRequest"])(url);
       response.then(function (result) {
-        _this.columns = result.data.columns;
-        _this.clients = result.data.client_set.data;
-        console.log(result.data.client_set.meta);
-        vm.paginate(result.data.client_set.meta, result.data.client_set.links);
+        _this.clients = result.data.data;
+        vm.paginate(result.data.meta, result.data.links);
       });
     },
     paginate: function paginate(meta, links) {
+      console.log(links);
       var pagination = {
         current_page: meta.current_page,
         last_page: meta.last_page,
-        next_page_url: links.next_page_url,
-        prev_page_url: links.prev_page_url
+        next_page_url: links.next,
+        prev_page_url: links.prev
       };
-      console.log(pagination);
       this.pagination = pagination;
     }
   }

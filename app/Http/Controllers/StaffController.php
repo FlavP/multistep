@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Http\Resources\Client as ClientResource;
 
 class StaffController extends Controller
 {
@@ -30,32 +31,8 @@ class StaffController extends Controller
     }
 
     public function getClients() {
-        $clients = [];
-        $clients['columns'] = [
-            [
-                'name' => 'Name',
-                'filterable' => true,
-            ],
-            [
-                'name' => 'Age',
-                'sortable' => true
-            ],
-            [
-                'name' => 'Email',
-                'filterable' => true
-            ],
-            [
-                'name' => 'Married'
-            ],
-            [
-                'name' => 'Partner Name'
-            ],
-            [
-                'name' => 'Actions'
-            ]
-        ];
-        $clients['client_set'] = Client::orderBy('id', 'asc')->paginate(15);
-        return $clients;
+        $clientRecords = Client::orderBy('id', 'asc')->paginate(15);
+        return ClientResource::collection($clientRecords);
     }
 
     /**

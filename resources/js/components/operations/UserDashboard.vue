@@ -53,7 +53,14 @@
         },
         data() {
             return {
-                columns: [],
+                columns: [
+                    {name: 'Name', filterable: true},
+                    {name: 'Age', sortable: true},
+                    {name: 'Email', filterable: true},
+                    {name: 'Married', filterable: true},
+                    {name: 'Partner Name'},
+                    {name: 'Actions'}
+                ],
                 clients: {},
                 pagination: {},
             }
@@ -64,21 +71,19 @@
                 let vm = this;
                 let url = page_url || '/get-clients';
                 let response = sendGetRequest(url);
-                response.then( result => {
-                        this.columns = result.data.columns;
-                        this.clients = result.data.client_set.data;
-                        console.log(result.data.client_set.meta);
-                        vm.paginate(result.data.client_set.meta, result.data.client_set.links);
-                    });
+                response.then(result => {
+                    this.clients = result.data.data;
+                    vm.paginate(result.data.meta, result.data.links);
+                });
             },
             paginate(meta, links) {
+                console.log(links);
                 let pagination = {
-                    current_page : meta.current_page,
+                    current_page: meta.current_page,
                     last_page: meta.last_page,
-                    next_page_url: links.next_page_url,
-                    prev_page_url: links.prev_page_url
+                    next_page_url: links.next,
+                    prev_page_url: links.prev
                 };
-                console.log(pagination);
                 this.pagination = pagination;
             }
         }
