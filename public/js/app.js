@@ -1944,8 +1944,11 @@ __webpack_require__.r(__webpack_exports__);
     getClients: function getClients(page_url) {
       var _this = this;
 
+      var pageNumber = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       var vm = this;
-      var url = page_url || '/get-clients';
+      var getParam = '/get-clients';
+      if (pageNumber > 0) getParam = getParam + '?page=' + pageNumber;
+      var url = page_url || getParam;
       var response = Object(_services_webServices__WEBPACK_IMPORTED_MODULE_0__["sendGetRequest"])(url);
       response.then(function (result) {
         _this.clients = result.data.data;
@@ -1960,6 +1963,14 @@ __webpack_require__.r(__webpack_exports__);
         prev_page_url: links.prev
       };
       this.pagination = pagination;
+    },
+    goToPage: function goToPage() {
+      var pageNumber = this.$refs.pageno.value;
+      console.log(pageNumber);
+      if (typeof pageNumber !== 'undefined' || !Number.isInteger(pageNumber) || pageNumber <= 0 || pageNumber > this.pagination.last_page) console.log('Oooops');else {
+        this.getClients('', pageNumber);
+      }
+      console.log(this.pagination);
     }
   }
 });
@@ -38524,7 +38535,20 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _vm._m(1),
+            _c(
+              "li",
+              {
+                staticClass: "page-item",
+                staticStyle: { "margin-right": "-150px" }
+              },
+              [
+                _c("input", {
+                  ref: "pageno",
+                  staticClass: "form-control form-control-md w-25",
+                  attrs: { type: "text", id: "pageno", name: "pageno" }
+                })
+              ]
+            ),
             _vm._v(" "),
             _c("li", [
               _c(
@@ -38554,17 +38578,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-1" }, [
       _c("i", { staticClass: "far fa-file-excel fa-2x" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "page-item" }, [
-      _c("input", {
-        staticClass: "form-control form-control-md w-25",
-        attrs: { type: "text", id: "pageno", name: "pageno" }
-      })
     ])
   }
 ]

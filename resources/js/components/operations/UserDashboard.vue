@@ -52,8 +52,8 @@
                                class="page-link"
                                @click="getClients(pagination.next_page_url)"
                             >Previous</a></li>
-                        <li class="page-item">
-                            <input type="text" id="pageno" name="pageno" class="form-control form-control-md w-25">
+                        <li style="margin-right: -150px;" class="page-item">
+                            <input type="text" ref="pageno" id="pageno" name="pageno" class="form-control form-control-md w-25">
                         </li>
                         <li>
                             <a
@@ -93,9 +93,12 @@
         },
         methods: {
             // Ca sa nu mai dau clientii prin props
-            getClients(page_url) {
+            getClients(page_url, pageNumber = 0) {
                 let vm = this;
-                let url = page_url || '/get-clients';
+                let getParam = '/get-clients';
+                if (pageNumber > 0)
+                    getParam = getParam + '?page=' + pageNumber;
+                let url = page_url || getParam;
                 let response = sendGetRequest(url);
                 response.then(result => {
                     this.clients = result.data.data;
@@ -110,6 +113,16 @@
                     prev_page_url: links.prev
                 };
                 this.pagination = pagination;
+            },
+            goToPage() {
+                let pageNumber = this.$refs.pageno.value;
+                console.log(pageNumber);
+                if (typeof pageNumber !== 'undefined' || !Number.isInteger(pageNumber) || pageNumber <= 0 || pageNumber > this.pagination.last_page)
+                    console.log('Oooops');
+                else {
+                    this.getClients('', pageNumber);
+                }
+                console.log(this.pagination);
             }
         }
     }
