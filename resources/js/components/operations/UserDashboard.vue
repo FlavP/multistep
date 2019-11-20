@@ -2,14 +2,31 @@
     <div class="container-fluid">
 
         <div class="row">
+            <div class="col-md-2">
+                <input class="form-control form-control-md"
+                       v-model="searchString"
+                       :class="{hidden: searchField}"
+                       @input="searchClient"
+                       type="text">
+            </div>
             <div class="col-md-11">
                 <table class="table">
                     <thead class="thead-light">
                     <tr>
                         <th v-for="name in columns">
                             {{name.name}}
-                            <span v-if="name.filterable"><i class="mr-5 fas fa-search"></i></span>
-                            <span v-if="name.sortable"><i class="mr-5 fas fa-sort"></i></span>
+                            <a href="#"
+                               class="text-decoration-none text-dark"
+                               @click="toggleSearch(name.name)"
+                               v-if="name.filterable"
+                            >
+                                <i class="ml-3 fas fa-search"></i>
+                            </a>
+                            <a href="#"
+                               class="text-decoration-none text-dark"
+                               v-if="name.sortable"
+                               @click="toggleFilter(name.name)"
+                            ><i class="ml-3 fas fa-sort"></i></a>
                         </th>
                     </tr>
                     </thead>
@@ -26,7 +43,9 @@
                 </table>
             </div>
             <div class="col-md-1">
-                <i class="far fa-file-excel fa-2x"></i>
+                <button class="btn btn-success">
+                    <i class="far fa-file-excel fa-2x"></i>
+                </button>
             </div>
         </div>
         <div class="row">
@@ -38,7 +57,7 @@
                             class="page-item">
                             <a href="#"
                                class="page-link"
-                               @click="getClients(pagination.prev_page_url)"
+                               @click="getClients(pagination.previous_page_url)"
                             >Previous</a></li>
                         <li class="page-item disabled">
                             <a class="page-link text-dark" href="#">
@@ -83,10 +102,15 @@
                     {name: 'Name', filterable: true},
                     {name: 'Age', sortable: true},
                     {name: 'Email', filterable: true},
-                    {name: 'Married', filterable: true},
-                    {name: 'Partner Name'},
+                    {name: 'Married'},
+                    {name: 'Partner Name', filterable: true},
                     {name: 'Actions'}
                 ],
+                filterColumn: '',
+                filterOrder: '',
+                searchColumn: '',
+                searchField: true,
+                searchString: '',
                 clients: {},
                 pagination: {},
             }
@@ -116,18 +140,28 @@
             },
             goToPage() {
                 let pageNumber = this.$refs.pageno.value;
-                console.log(pageNumber);
-                if (typeof pageNumber !== 'undefined' || !Number.isInteger(pageNumber) || pageNumber <= 0 || pageNumber > this.pagination.last_page)
-                    console.log('Oooops');
-                else {
+                if (typeof pageNumber === 'undefined' || pageNumber <= 0 || pageNumber > this.pagination.last_page)
+                    return;
+                else
                     this.getClients('', pageNumber);
-                }
-                console.log(this.pagination);
+            },
+            searchClient() {
+                console.log(this.searchString);
+            },
+            toggleSearch(column) {
+                this.searchField = !this.searchField;
+                this.searchColumn = column;
+            },
+            toggleFilter(column) {
+                this.filterColumn = column;
+                this.filterOrder = this.filterOrder === '' ? 'ASC' : 'DESC';
             }
         }
     }
 </script>
 
 <style scoped>
-
+    .hidden {
+        display: none;
+    }
 </style>
