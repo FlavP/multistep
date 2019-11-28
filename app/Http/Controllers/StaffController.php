@@ -30,8 +30,18 @@ class StaffController extends Controller
         return view('operations');
     }
 
-    public function getClients() {
-        $clientRecords = Client::orderBy('id', 'asc')->paginate(15);
+    /**
+     * @param Request $request
+     */
+    public function getClients(Request $request) {
+//        Try this tomorrow https://stackoverflow.com/questions/48390967/laravel-5-5-eloquent-optionally-chain-where-statements
+        $aData = $request->all();
+        if (isset($aData['match']) && isset($aData['search_column']))
+            $clientRecords = Client::where($aData['search_column'], 'like', '%' . $aData['match'] . '%')->paginate(15);
+        else
+            $clientRecords = Client::orderBy('id', 'asc')->paginate(15);
+        if (isset($aData['order']) && isset($aData['filter_column']))
+            $clientRecords = Client::orderBy($aData['filter_column'], $aData['order'])->paginate(15);
         return ClientResource::collection($clientRecords);
     }
 

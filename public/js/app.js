@@ -1929,6 +1929,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UserDashboard",
@@ -1960,7 +1966,8 @@ __webpack_require__.r(__webpack_exports__);
       searchField: true,
       searchString: '',
       clients: {},
-      pagination: {}
+      pagination: {},
+      clientParams: {}
     };
   },
   methods: {
@@ -1968,12 +1975,10 @@ __webpack_require__.r(__webpack_exports__);
     getClients: function getClients(page_url) {
       var _this = this;
 
-      var pageNumber = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      var url = page_url || '/get-clients';
       var vm = this;
-      var getParam = '/get-clients';
-      if (pageNumber > 0) getParam = getParam + '?page=' + pageNumber;
-      var url = page_url || getParam;
-      var response = Object(_services_webServices__WEBPACK_IMPORTED_MODULE_0__["sendGetRequest"])(url);
+      var response = {};
+      response = Object(_services_webServices__WEBPACK_IMPORTED_MODULE_0__["sendGetRequest"])(url, this.clientParams);
       response.then(function (result) {
         _this.clients = result.data.data;
         vm.paginate(result.data.meta, result.data.links);
@@ -1990,10 +1995,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     goToPage: function goToPage() {
       var pageNumber = this.$refs.pageno.value;
-      if (typeof pageNumber === 'undefined' || pageNumber <= 0 || pageNumber > this.pagination.last_page) return;else this.getClients('', pageNumber);
+      if (typeof pageNumber === 'undefined' || pageNumber <= 0 || pageNumber > this.pagination.last_page) return;else {
+        this.clientParams.page = pageNumber;
+        this.getClients('');
+      }
     },
     searchClient: function searchClient() {
-      console.log(this.searchString);
+      if (this.searchString.length >= 3) {
+        this.clientParams.search_column = this.searchColumn;
+        this.clientParams.match = this.searchString;
+        this.getClients('');
+      } else this.getClients();
     },
     toggleSearch: function toggleSearch(column) {
       this.searchField = !this.searchField;
@@ -2001,7 +2013,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     toggleFilter: function toggleFilter(column) {
       this.filterColumn = column;
-      this.filterOrder = this.filterOrder === '' ? 'ASC' : 'DESC';
+      this.filterOrder = this.filterOrder === '' ? 'asc' : 'desc';
+      this.showOrdered();
+    },
+    showOrdered: function showOrdered() {
+      this.clientParams.filter_column = this.searchColumn;
+      this.clientParams.order = this.searchString;
+      console.log(this.clientParams);
+      this.getClients('');
     }
   }
 });
@@ -38617,7 +38636,7 @@ var render = function() {
                     attrs: { href: "#" },
                     on: {
                       click: function($event) {
-                        return _vm.getClients(_vm.pagination.previous_page_url)
+                        return _vm.getClients(_vm.pagination.prev_page_url)
                       }
                     }
                   },
@@ -38660,7 +38679,7 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("Previous")]
+                  [_vm._v("Next")]
                 )
               ]
             ),
@@ -38686,11 +38705,7 @@ var render = function() {
                 {
                   staticClass: "page-link",
                   attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      return _vm.goToPage()
-                    }
-                  }
+                  on: { click: _vm.goToPage }
                 },
                 [_vm._v("Go to")]
               )

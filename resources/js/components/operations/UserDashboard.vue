@@ -57,7 +57,7 @@
                             class="page-item">
                             <a href="#"
                                class="page-link"
-                               @click="getClients(pagination.previous_page_url)"
+                               @click="getClients(pagination.prev_page_url)"
                             >Previous</a></li>
                         <li class="page-item disabled">
                             <a class="page-link text-dark" href="#">
@@ -70,15 +70,21 @@
                             <a href="#"
                                class="page-link"
                                @click="getClients(pagination.next_page_url)"
-                            >Previous</a></li>
+                            >Next</a></li>
                         <li style="margin-right: -150px;" class="page-item">
-                            <input type="text" ref="pageno" id="pageno" name="pageno" class="form-control form-control-md w-25">
+                            <input
+                                type="text"
+                                ref="pageno"
+                                id="pageno"
+                                name="pageno"
+                                class="form-control form-control-md w-25"
+                            >
                         </li>
                         <li>
                             <a
                                 href="#"
                                 class="page-link"
-                                @click="goToPage()"
+                                @click="goToPage"
                             >Go to</a>
                         </li>
                     </ul>
@@ -113,17 +119,16 @@
                 searchString: '',
                 clients: {},
                 pagination: {},
+                clientParams: {},
             }
         },
         methods: {
             // Ca sa nu mai dau clientii prin props
-            getClients(page_url, pageNumber = 0) {
+            getClients(page_url) {
+                let url = page_url || '/get-clients';
                 let vm = this;
-                let getParam = '/get-clients';
-                if (pageNumber > 0)
-                    getParam = getParam + '?page=' + pageNumber;
-                let url = page_url || getParam;
-                let response = sendGetRequest(url);
+                let response = {};
+                response = sendGetRequest(url, this.clientParams);
                 response.then(result => {
                     this.clients = result.data.data;
                     vm.paginate(result.data.meta, result.data.links);
@@ -142,11 +147,19 @@
                 let pageNumber = this.$refs.pageno.value;
                 if (typeof pageNumber === 'undefined' || pageNumber <= 0 || pageNumber > this.pagination.last_page)
                     return;
-                else
-                    this.getClients('', pageNumber);
+                else{
+                    this.clientParams.page = pageNumber;
+                    this.getClients('');
+                }
             },
             searchClient() {
-                console.log(this.searchString);
+                if (this.searchString.length >= 3){
+                    this.clientParams.search_column = this.searchColumn;
+                    this.clientParams.match = this.searchString;
+                    this.getClients('');
+                }
+                else
+                    this.getClients();
             },
             toggleSearch(column) {
                 this.searchField = !this.searchField;
@@ -154,7 +167,14 @@
             },
             toggleFilter(column) {
                 this.filterColumn = column;
-                this.filterOrder = this.filterOrder === '' ? 'ASC' : 'DESC';
+                this.filterOrder = this.filterOrder === '' ? 'asc' : 'desc';
+                this.showOrdered();
+            },
+            showOrdered() {
+                this.clientParams.filter_column = this.searchColumn;
+                this.clientParams.order = this.searchString;
+                console.log(this.clientParams);
+                this.getClients('');
             }
         }
     }
