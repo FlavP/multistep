@@ -1976,9 +1976,10 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var url = page_url || '/get-clients';
+      if (url !== '/get-clients') delete this.clientParams.page;
       var vm = this;
       var response = {};
-      response = Object(_services_webServices__WEBPACK_IMPORTED_MODULE_0__["sendGetRequest"])(url, this.clientParams);
+      response = Object(_services_webServices__WEBPACK_IMPORTED_MODULE_0__["sendGetRequest"])(url, vm.clientParams);
       response.then(function (result) {
         _this.clients = result.data.data;
         vm.paginate(result.data.meta, result.data.links);
@@ -1988,8 +1989,10 @@ __webpack_require__.r(__webpack_exports__);
       var pagination = {
         current_page: meta.current_page,
         last_page: meta.last_page,
-        next_page_url: links.next,
-        prev_page_url: links.prev
+        next_page: meta.current_page + 1,
+        prev_page: meta.current_page - 1,
+        prev_page_url: links.prev,
+        next_page_url: links.next
       };
       this.pagination = pagination;
     },
@@ -2005,22 +2008,27 @@ __webpack_require__.r(__webpack_exports__);
         this.clientParams.search_column = this.searchColumn;
         this.clientParams.match = this.searchString;
         this.getClients('');
-      } else this.getClients();
+      } else {
+        this.resetFilters();
+        this.getClients('');
+      }
     },
     toggleSearch: function toggleSearch(column) {
       this.searchField = !this.searchField;
-      this.searchColumn = column;
+      this.searchColumn = column.toLowerCase();
     },
     toggleFilter: function toggleFilter(column) {
-      this.filterColumn = column;
-      this.filterOrder = this.filterOrder === '' ? 'asc' : 'desc';
+      this.filterColumn = column.toLowerCase();
+      this.filterOrder = this.filterOrder === '' || this.filterOrder === 'desc' ? 'asc' : 'desc';
       this.showOrdered();
     },
     showOrdered: function showOrdered() {
-      this.clientParams.filter_column = this.searchColumn;
-      this.clientParams.order = this.searchString;
-      console.log(this.clientParams);
+      this.clientParams.filter_column = this.filterColumn;
+      this.clientParams.order = this.filterOrder;
       this.getClients('');
+    },
+    resetFilters: function resetFilters() {
+      this.clientParams = {};
     }
   }
 });

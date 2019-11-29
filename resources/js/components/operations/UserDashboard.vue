@@ -126,9 +126,11 @@
             // Ca sa nu mai dau clientii prin props
             getClients(page_url) {
                 let url = page_url || '/get-clients';
+                if (url !== '/get-clients')
+                    delete this.clientParams.page;
                 let vm = this;
                 let response = {};
-                response = sendGetRequest(url, this.clientParams);
+                response = sendGetRequest(url, vm.clientParams);
                 response.then(result => {
                     this.clients = result.data.data;
                     vm.paginate(result.data.meta, result.data.links);
@@ -138,8 +140,10 @@
                 let pagination = {
                     current_page: meta.current_page,
                     last_page: meta.last_page,
+                    next_page: meta.current_page + 1,
+                    prev_page: meta.current_page - 1,
+                    prev_page_url: links.prev,
                     next_page_url: links.next,
-                    prev_page_url: links.prev
                 };
                 this.pagination = pagination;
             },
@@ -158,23 +162,27 @@
                     this.clientParams.match = this.searchString;
                     this.getClients('');
                 }
-                else
-                    this.getClients();
+                else{
+                    this.resetFilters();
+                    this.getClients('');
+                }
             },
             toggleSearch(column) {
                 this.searchField = !this.searchField;
-                this.searchColumn = column;
+                this.searchColumn = column.toLowerCase();
             },
             toggleFilter(column) {
-                this.filterColumn = column;
-                this.filterOrder = this.filterOrder === '' ? 'asc' : 'desc';
+                this.filterColumn = column.toLowerCase();
+                this.filterOrder = (this.filterOrder === '' || this.filterOrder === 'desc') ? 'asc' : 'desc';
                 this.showOrdered();
             },
             showOrdered() {
-                this.clientParams.filter_column = this.searchColumn;
-                this.clientParams.order = this.searchString;
-                console.log(this.clientParams);
+                this.clientParams.filter_column = this.filterColumn;
+                this.clientParams.order = this.filterOrder;
                 this.getClients('');
+            },
+            resetFilters() {
+                this.clientParams = {};
             }
         }
     }
