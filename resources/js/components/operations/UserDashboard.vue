@@ -43,7 +43,7 @@
                 </table>
             </div>
             <div class="col-md-1">
-                <button class="btn btn-success">
+                <button @click="exportClients" class="btn btn-success">
                     <i class="far fa-file-excel fa-2x"></i>
                 </button>
             </div>
@@ -95,7 +95,7 @@
 </template>
 
 <script>
-    import {sendGetRequest} from "../services/webServices";
+    import {sendRequest, sendGetRequest} from "../services/webServices";
 
     export default {
         name: "UserDashboard",
@@ -183,6 +183,13 @@
             },
             resetFilters() {
                 this.clientParams = {};
+            },
+            exportClients() {
+                const url = '/export-clients';
+                sendRequest(url, {
+                    clients: this.clients,
+                    headings: this.columns
+                });
             }
         }
     }

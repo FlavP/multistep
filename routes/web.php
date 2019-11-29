@@ -28,4 +28,5 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/profile/{any}', 'HomeController@index')->where('any', '.*');
     Route::post('/profile-picture', 'StaffController@changePicture');
     Route::post('/set-user', 'StaffController@setUser');
+    Route::post('/export-clients', 'StaffController@export');
 });

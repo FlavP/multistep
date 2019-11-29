@@ -2029,6 +2029,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     resetFilters: function resetFilters() {
       this.clientParams = {};
+    },
+    exportClients: function exportClients() {
+      var url = '/export-clients';
+      Object(_services_webServices__WEBPACK_IMPORTED_MODULE_0__["sendRequest"])(url, {
+        clients: this.clients,
+        headings: this.columns
+      });
     }
   }
 });
@@ -38623,7 +38630,13 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(0)
+      _c("div", { staticClass: "col-md-1" }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-success", on: { click: _vm.exportClients } },
+          [_c("i", { staticClass: "far fa-file-excel fa-2x" })]
+        )
+      ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
@@ -38724,18 +38737,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1" }, [
-      _c("button", { staticClass: "btn btn-success" }, [
-        _c("i", { staticClass: "far fa-file-excel fa-2x" })
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

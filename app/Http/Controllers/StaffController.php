@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ClientsExport;
 use App\Models\Client;
 use App\Repositories\StaffRepository;
 use App\Traits\PictureUploadTrait;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Http\Resources\Client as ClientResource;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StaffController extends Controller
 {
@@ -86,5 +88,14 @@ class StaffController extends Controller
         else
             $response = $this->staffRepo->newUser($aData);
         return $response;
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function export(Request $request){
+        $aData = $request->all();
+        $export = new ClientsExport($aData['clients'], $aData['headings']);
+        return Excel::download($export, 'clients.xlsx');
     }
 }
