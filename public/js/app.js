@@ -2032,9 +2032,28 @@ __webpack_require__.r(__webpack_exports__);
     },
     exportClients: function exportClients() {
       var url = '/export-clients';
-      Object(_services_webServices__WEBPACK_IMPORTED_MODULE_0__["sendRequest"])(url, {
+      var response = {};
+      var columnArray = this.columns.map(function (col) {
+        return col.name;
+      });
+      response = Object(_services_webServices__WEBPACK_IMPORTED_MODULE_0__["sendRequest"])(url, {
         clients: this.clients,
-        headings: this.columns
+        headings: columnArray
+      });
+      response.then(function (result) {
+        var type = result.headers['content-type'];
+        var url = window.URL.createObjectURL(new Blob([result.data], {
+          type: type,
+          encoding: 'UTF-8'
+        }));
+        var link = document.createElement('a');
+        link.href = url;
+        var fileName = 'clients.csv';
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        console.log('File Downloaded');
       });
     }
   }
@@ -56864,11 +56883,7 @@ var sendRequest = function sendRequest(url) {
   return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, data, {
     headers: headers
   }).then(function (response) {
-    if (response.data.success) {
-      return response.data;
-    } else {
-      alert("Something went wrong");
-    }
+    if (response.data.success) return response.data;else if (response.statusText === 'OK') return response;else alert("Something went wrong");
   })["catch"](function (error) {
     console.log(error);
   });

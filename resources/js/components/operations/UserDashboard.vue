@@ -186,10 +186,24 @@
             },
             exportClients() {
                 const url = '/export-clients';
-                sendRequest(url, {
+                let response = {};
+                let columnArray = this.columns.map(col => col.name);
+                response = sendRequest(url, {
                     clients: this.clients,
-                    headings: this.columns
+                    headings: columnArray
                 });
+                response.then(result => {
+                    const type = result.headers['content-type'];
+                    const url = window.URL.createObjectURL(new Blob([result.data], { type: type, encoding: 'UTF-8' }));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    const fileName = 'clients.csv';
+                    link.setAttribute('download', fileName);
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                    console.log('File Downloaded');
+                })
             }
         }
     }

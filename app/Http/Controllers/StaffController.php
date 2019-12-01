@@ -96,6 +96,6 @@ class StaffController extends Controller
     public function export(Request $request){
         $aData = $request->all();
         $export = new ClientsExport($aData['clients'], $aData['headings']);
-        return Excel::download($export, 'clients.xlsx');
+        return Excel::download($export, 'clients.csv');
     }
 }
