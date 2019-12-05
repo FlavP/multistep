@@ -20,9 +20,10 @@ const sendRequest = ((url, data = {}, headers = headers) => {
 });
 
 // Pentru GET
-const sendGetRequest = ((url, params = {}) => {
+const sendGetRequest = ((url, params = {}, responseType = 'json') => {
     return axios.get(url, {
-        params
+        params,
+        responseType
     }).then( response => {
         return response;
     }).catch( error => {

@@ -16,7 +16,7 @@ class ClientsExport implements FromCollection, WithHeadings
     public function __construct($clients, $headingsFields)
     {
         $this->clients = $clients;
-        $this->headingsFields[] = $headingsFields;
+        $this->headingsFields = $headingsFields;
     }
 
     public function collection()

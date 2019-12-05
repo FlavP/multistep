@@ -26,7 +26,7 @@ Route::group(['middleware' => 'web'], function () {
 
     // User Profile Routes
     Route::get('/profile/{any}', 'HomeController@index')->where('any', '.*');
+    Route::get('/export-clients', 'ClientController@export');
     Route::post('/profile-picture', 'StaffController@changePicture');
     Route::post('/set-user', 'StaffController@setUser');
-    Route::post('/export-clients', 'StaffController@export');
 });

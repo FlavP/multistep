@@ -43,9 +43,12 @@
                 </table>
             </div>
             <div class="col-md-1">
-                <button @click="exportClients" class="btn btn-success">
+                <a
+                    href="#"
+                    @click="exportClients"
+                    class="btn btn-success">
                     <i class="far fa-file-excel fa-2x"></i>
-                </button>
+                </a>
             </div>
         </div>
         <div class="row">
@@ -95,7 +98,7 @@
 </template>
 
 <script>
-    import {sendRequest, sendGetRequest} from "../services/webServices";
+    import {sendGetRequest} from "../services/webServices";
 
     export default {
         name: "UserDashboard",
@@ -187,23 +190,15 @@
             exportClients() {
                 const url = '/export-clients';
                 let response = {};
-                let columnArray = this.columns.map(col => col.name);
-                response = sendRequest(url, {
-                    clients: this.clients,
-                    headings: columnArray
-                });
-                response.then(result => {
-                    const type = result.headers['content-type'];
-                    const url = window.URL.createObjectURL(new Blob([result.data], { type: type, encoding: 'UTF-8' }));
+                response = sendGetRequest(url, this.clientParams, 'blob');
+                response.then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
                     const link = document.createElement('a');
                     link.href = url;
-                    const fileName = 'clients.csv';
-                    link.setAttribute('download', fileName);
+                    link.setAttribute('download', 'clients.xlsx');
                     document.body.appendChild(link);
                     link.click();
-                    link.remove();
-                    console.log('File Downloaded');
-                })
+                });
             }
         }
     }
