@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Repositories\ClientRepository;
 use App\Repositories\StaffRepository;
 use App\Traits\PictureUploadTrait;
 use App\User;
@@ -15,6 +16,7 @@ class StaffController extends Controller
 {
     use PictureUploadTrait;
     private $staffRepo;
+    private $clientRepo;
 
     /**
      * StaffController constructor.
@@ -22,6 +24,7 @@ class StaffController extends Controller
     public function __construct()
     {
         $this->staffRepo = new StaffRepository();
+        $this->clientRepo = new ClientRepository();
     }
 
 
@@ -35,17 +38,8 @@ class StaffController extends Controller
      */
     public function getClients(Request $request) {
         $aData = $request->all();
-        $query = Client::where(function ($q) use ($aData){
-            if (isset($aData['match']) && isset($aData['search_column']))
-                $q->where($aData['search_column'], 'like', '%' . $aData['match'] . '%');
-        });
-        if (isset($aData['order']) && isset($aData['filter_column'])){
-            $query->orderBy($aData['filter_column'], $aData['order']);
-        }
-        else
-            $query->orderBy('id', 'asc');
-        $clientRecords = $query->paginate(15);
-        return ClientResource::collection($clientRecords);
+        $clientRecords = $this->clientRepo->getClients($aData);
+        return ClientResource::collection($clientRecords->paginate(15));
     }
 
     /**

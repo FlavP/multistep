@@ -137,7 +137,10 @@
                 response.then(result => {
                     this.clients = result.data.data;
                     vm.paginate(result.data.meta, result.data.links);
-                });
+                })
+                    .catch(err => {
+                        console.log(err);
+                    });
             },
             paginate(meta, links) {
                 let pagination = {
@@ -154,18 +157,17 @@
                 let pageNumber = this.$refs.pageno.value;
                 if (typeof pageNumber === 'undefined' || pageNumber <= 0 || pageNumber > this.pagination.last_page)
                     return;
-                else{
+                else {
                     this.clientParams.page = pageNumber;
                     this.getClients('');
                 }
             },
             searchClient() {
-                if (this.searchString.length >= 3){
+                if (this.searchString.length >= 3) {
                     this.clientParams.search_column = this.searchColumn;
                     this.clientParams.match = this.searchString;
                     this.getClients('');
-                }
-                else{
+                } else {
                     this.resetFilters();
                     this.getClients('');
                 }
@@ -198,7 +200,10 @@
                     link.setAttribute('download', 'clients.xlsx');
                     document.body.appendChild(link);
                     link.click();
-                });
+                })
+                .catch(err => {
+                        console.log(err);
+                    });
             }
         }
     }
