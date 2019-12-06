@@ -6,25 +6,24 @@ const headers = {
     'Content-Type': 'application/json'
 };
 const sendRequest = ((url, data = {}, headers = headers) => {
-    let responseData = '';
     return axios.post(url, data, {headers})
         .then( response => {
-            if (response.data.success){
+            if (response.data.success)
                 return response.data;
-            }
-            else {
+            else if(response.statusText === 'OK')
+                return response;
+            else
                 alert("Something went wrong");
-            }
         }).catch( error => {
             console.log(error);
     });
-    return responseData;
 });
 
 // Pentru GET
-const sendGetRequest = ((url, params = {}) => {
-    axios.get(url, {
-        params
+const sendGetRequest = ((url, params = {}, responseType = 'json') => {
+    return axios.get(url, {
+        params,
+        responseType
     }).then( response => {
         return response;
     }).catch( error => {

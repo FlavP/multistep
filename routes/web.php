@@ -18,6 +18,7 @@ Route::group(['middleware' => 'web'], function () {
 //    });
 
     Route::get('/operations', 'StaffController@index')->middleware('operator');
+    Route::get('/get-clients', 'StaffController@getClients');
 
     Auth::routes(['register' => false]);
 
@@ -25,6 +26,7 @@ Route::group(['middleware' => 'web'], function () {
 
     // User Profile Routes
     Route::get('/profile/{any}', 'HomeController@index')->where('any', '.*');
+    Route::get('/export-clients', 'ClientController@export');
     Route::post('/profile-picture', 'StaffController@changePicture');
     Route::post('/set-user', 'StaffController@setUser');
 });

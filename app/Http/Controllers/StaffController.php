@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
+use App\Repositories\ClientRepository;
 use App\Repositories\StaffRepository;
 use App\Traits\PictureUploadTrait;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Http\Resources\Client as ClientResource;
 
 class StaffController extends Controller
 {
     use PictureUploadTrait;
     private $staffRepo;
+    private $clientRepo;
 
     /**
      * StaffController constructor.
@@ -20,6 +24,22 @@ class StaffController extends Controller
     public function __construct()
     {
         $this->staffRepo = new StaffRepository();
+        $this->clientRepo = new ClientRepository();
+    }
+
+
+    public function index() {
+
+        return view('operations');
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function getClients(Request $request) {
+        $aData = $request->all();
+        $clientRecords = $this->clientRepo->getClients($aData);
+        return ClientResource::collection($clientRecords->paginate(15));
     }
 
     /**
@@ -61,4 +81,5 @@ class StaffController extends Controller
             $response = $this->staffRepo->newUser($aData);
         return $response;
     }
+
 }
