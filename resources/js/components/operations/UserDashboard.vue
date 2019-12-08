@@ -43,12 +43,28 @@
                 </table>
             </div>
             <div class="col-md-1">
-                <a
-                    href="#"
-                    @click="exportClients"
-                    class="btn btn-success">
-                    <i class="far fa-file-excel fa-2x"></i>
-                </a>
+                <ul class="list-unstyled mt-5">
+                    <li>
+                        <a
+                            href="#"
+                            @click="exportClients"
+                            class="btn btn-success mt-5">
+                            <i class="far fa-file-excel fa-2x"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="#"
+                            @click="resetFilters(true)"
+                            class="btn mt-5"
+                        >
+                            <i class="fas fa-sync fa-2x"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <documents-form></documents-form>
+                    </li>
+                </ul>
             </div>
         </div>
         <div class="row">
@@ -99,9 +115,13 @@
 
 <script>
     import {sendGetRequest} from "../services/webServices";
+    import DocumentsForm from "./DocumentsForm";
 
     export default {
         name: "UserDashboard",
+        components: {
+            DocumentsForm
+        },
         created() {
             this.getClients();
         },
@@ -186,8 +206,13 @@
                 this.clientParams.order = this.filterOrder;
                 this.getClients('');
             },
-            resetFilters() {
+            resetFilters(emptyString = false) {
                 this.clientParams = {};
+                if (emptyString) {
+                    this.searchString = '';
+                    this.getClients('');
+                    this.searchField = true;
+                }
             },
             exportClients() {
                 const url = '/export-clients';
@@ -201,7 +226,7 @@
                     document.body.appendChild(link);
                     link.click();
                 })
-                .catch(err => {
+                    .catch(err => {
                         console.log(err);
                     });
             }

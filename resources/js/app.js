@@ -9,6 +9,7 @@ import UserAdd from "./components/profile/UserAdd";
 import EditProfile from "./components/profile/EditProfile";
 import UploadPicture from "./components/profile/UploadPicture";
 import UserDashboard from "./components/operations/UserDashboard";
+import StepContainer from "./components/operations/steps/StepContainer";
 
 Vue.use(VueRouter);
 
@@ -31,6 +32,11 @@ const router = new VueRouter({
             name: 'picture'
         },
         {
+            path: '/document-steps',
+            component: StepContainer,
+            name: 'docform'
+        },
+        {
             path: '/',
             redirect: '/profile/edit-profile',
         }
@@ -39,7 +45,7 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    components: {UserAdd, EditProfile, UploadPicture, UserDashboard},
+    components: {UserAdd, EditProfile, UploadPicture, UserDashboard, StepContainer},
     router,
 });
 
