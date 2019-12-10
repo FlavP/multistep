@@ -14,7 +14,7 @@ import StepContainer from "./components/operations/steps/StepContainer";
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-    mode: 'history',
+    mode: 'abstract',
     routes: [
         {
             path: '/profile/add-user',
@@ -47,6 +47,7 @@ const router = new VueRouter({
         }
     ]
 });
+router.replace('/operations');
 
 const app = new Vue({
     el: '#app',
