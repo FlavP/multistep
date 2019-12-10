@@ -1979,6 +1979,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -38876,7 +38878,17 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("li", [_c("documents-form")], 1)
+          _c(
+            "li",
+            [
+              _c(
+                "router-link",
+                { attrs: { to: "/operations/document-steps" } },
+                [_c("a", [_c("i", { staticClass: "fas fa-plus fa-2x" })])]
+              )
+            ],
+            1
+          )
         ])
       ])
     ]),
@@ -56690,7 +56702,11 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     component: _components_profile_UploadPicture__WEBPACK_IMPORTED_MODULE_4__["default"],
     name: 'picture'
   }, {
-    path: '/document-steps',
+    path: '/operations',
+    component: _components_operations_UserDashboard__WEBPACK_IMPORTED_MODULE_5__["default"],
+    name: 'dashboard'
+  }, {
+    path: '/operations/document-steps',
     component: _components_operations_steps_StepContainer__WEBPACK_IMPORTED_MODULE_6__["default"],
     name: 'docform'
   }, {

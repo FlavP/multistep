@@ -32,7 +32,12 @@ const router = new VueRouter({
             name: 'picture'
         },
         {
-            path: '/document-steps',
+            path: '/operations',
+            component: UserDashboard,
+            name: 'dashboard'
+        },
+        {
+            path: '/operations/document-steps',
             component: StepContainer,
             name: 'docform'
         },

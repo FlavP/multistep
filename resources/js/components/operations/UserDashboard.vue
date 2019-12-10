@@ -62,7 +62,9 @@
                         </a>
                     </li>
                     <li>
-                        <documents-form></documents-form>
+                        <router-link to="/operations/document-steps">
+                            <a><i class="fas fa-plus fa-2x"></i></a>
+                        </router-link>
                     </li>
                 </ul>
             </div>

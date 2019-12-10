@@ -28,11 +28,6 @@ class StaffController extends Controller
     }
 
 
-    public function index() {
-
-        return view('operations');
-    }
-
     /**
      * @param Request $request
      */

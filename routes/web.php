@@ -17,7 +17,9 @@ Route::group(['middleware' => 'web'], function () {
 //        return view('welcome');
 //    });
 
-    Route::get('/operations', 'StaffController@index')->middleware('operator');
+    Route::get('/operations/{vue_routing?}', function (){
+        return view('operations');
+    })->where('vue_routing', '[\/\w.-]*')->middleware('operator');
     Route::get('/get-clients', 'StaffController@getClients');
 
     Auth::routes(['register' => false]);
