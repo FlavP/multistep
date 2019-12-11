@@ -39161,9 +39161,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-6" }, [
-      _c("button", { staticClass: "btn btn-primary" }, [
-        _vm._v("\n                Previous\n            ")
-      ])
+      _c(
+        "a",
+        { staticClass: "btn btn-primary", attrs: { href: "/operations" } },
+        [_vm._v("\n                Previous\n            ")]
+      )
     ])
   }
 ]
@@ -56878,62 +56880,16 @@ module.exports = function(module) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _components_profile_UserAdd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/profile/UserAdd */ "./resources/js/components/profile/UserAdd.vue");
-/* harmony import */ var _components_profile_EditProfile__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/profile/EditProfile */ "./resources/js/components/profile/EditProfile.vue");
-/* harmony import */ var _components_profile_UploadPicture__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/profile/UploadPicture */ "./resources/js/components/profile/UploadPicture.vue");
-/* harmony import */ var _components_operations_UserDashboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/operations/UserDashboard */ "./resources/js/components/operations/UserDashboard.vue");
-/* harmony import */ var _components_operations_steps_StepContainer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/operations/steps/StepContainer */ "./resources/js/components/operations/steps/StepContainer.vue");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./router */ "./resources/js/router/index.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); //Libraries
 
 
 
  //My Components
 
-
-
-
-
-
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
-  mode: 'abstract',
-  routes: [{
-    path: '/profile/add-user',
-    component: _components_profile_UserAdd__WEBPACK_IMPORTED_MODULE_2__["default"],
-    name: 'add'
-  }, {
-    path: '/profile/edit-profile',
-    component: _components_profile_EditProfile__WEBPACK_IMPORTED_MODULE_3__["default"],
-    name: 'edit'
-  }, {
-    path: '/profile/upload-picture',
-    component: _components_profile_UploadPicture__WEBPACK_IMPORTED_MODULE_4__["default"],
-    name: 'picture'
-  }, {
-    path: '/operations',
-    component: _components_operations_UserDashboard__WEBPACK_IMPORTED_MODULE_5__["default"],
-    name: 'dashboard'
-  }, {
-    path: '/operations/document-steps',
-    component: _components_operations_steps_StepContainer__WEBPACK_IMPORTED_MODULE_6__["default"],
-    name: 'docform'
-  }, {
-    path: '/',
-    redirect: '/profile/edit-profile'
-  }]
-});
-router.replace('/operations');
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
-  components: {
-    UserAdd: _components_profile_UserAdd__WEBPACK_IMPORTED_MODULE_2__["default"],
-    EditProfile: _components_profile_EditProfile__WEBPACK_IMPORTED_MODULE_3__["default"],
-    UploadPicture: _components_profile_UploadPicture__WEBPACK_IMPORTED_MODULE_4__["default"],
-    UserDashboard: _components_operations_UserDashboard__WEBPACK_IMPORTED_MODULE_5__["default"],
-    StepContainer: _components_operations_steps_StepContainer__WEBPACK_IMPORTED_MODULE_6__["default"]
-  },
-  router: router
+  router: _router__WEBPACK_IMPORTED_MODULE_1__["default"]
 });
 
 /***/ }),
@@ -57667,6 +57623,63 @@ var sendGetRequest = function sendGetRequest(url) {
 };
 
 
+
+/***/ }),
+
+/***/ "./resources/js/router/index.js":
+/*!**************************************!*\
+  !*** ./resources/js/router/index.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _components_profile_UserAdd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/profile/UserAdd */ "./resources/js/components/profile/UserAdd.vue");
+/* harmony import */ var _components_profile_EditProfile__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/profile/EditProfile */ "./resources/js/components/profile/EditProfile.vue");
+/* harmony import */ var _components_profile_UploadPicture__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/profile/UploadPicture */ "./resources/js/components/profile/UploadPicture.vue");
+/* harmony import */ var _components_operations_UserDashboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/operations/UserDashboard */ "./resources/js/components/operations/UserDashboard.vue");
+/* harmony import */ var _components_operations_steps_StepContainer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/operations/steps/StepContainer */ "./resources/js/components/operations/steps/StepContainer.vue");
+
+
+
+
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
+  mode: 'abstract',
+  routes: [{
+    path: '/profile/add-user',
+    component: _components_profile_UserAdd__WEBPACK_IMPORTED_MODULE_2__["default"],
+    name: 'add'
+  }, {
+    path: '/profile/edit-profile',
+    component: _components_profile_EditProfile__WEBPACK_IMPORTED_MODULE_3__["default"],
+    name: 'edit'
+  }, {
+    path: '/profile/upload-picture',
+    component: _components_profile_UploadPicture__WEBPACK_IMPORTED_MODULE_4__["default"],
+    name: 'picture'
+  }, {
+    path: '/operations',
+    component: _components_operations_UserDashboard__WEBPACK_IMPORTED_MODULE_5__["default"],
+    name: 'dashboard'
+  }, {
+    path: '/operations/document-steps',
+    component: _components_operations_steps_StepContainer__WEBPACK_IMPORTED_MODULE_6__["default"],
+    name: 'docform'
+  }, {
+    path: '/',
+    redirect: '/profile/edit-profile'
+  }]
+});
+router.replace('/operations');
+/* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),
 
