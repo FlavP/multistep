@@ -1,19 +1,17 @@
 <template>
-    <div>
-        <div class="row">
-        <input  type="email"
-                name="email"
-                id="email"
-                placeholder="User Email"
-                v-model="email">
-        </div>
-        <div class="row">
-            <div class="col-md-6">
+    <div class="row offset-5">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+            <div class="form-group input">
+                <input type="email"
+                       name="email"
+                       id="email"
+                       placeholder="User Email"
+                       v-model="email">
+            </div>
+            <div class="form-group">
                 <a href="/operations" class="btn btn-primary">
                     Previous
                 </a>
-            </div>
-            <div class="col-md-6">
                 <button
                     class="btn btn-primary"
                     @click.prevent="increase"
@@ -36,10 +34,9 @@
         },
         methods: {
             increase() {
-                let curStep = this.step;
-                curStep++;
+                this.$emit('update-step', 2);
             }
-        }
+        },
     }
 </script>
 

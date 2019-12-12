@@ -2143,8 +2143,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Step1",
   props: ['step'],
@@ -2155,8 +2153,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     increase: function increase() {
-      var curStep = this.step;
-      curStep++;
+      this.$emit('update-step', 2);
     }
   }
 });
@@ -2178,9 +2175,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Step2",
-  props: ['step']
+  props: ['step'],
+  data: function data() {
+    return {
+      email: ''
+    };
+  },
+  methods: {
+    decrease: function decrease() {
+      this.$emit('update-step', 1);
+    }
+  }
 });
 
 /***/ }),
@@ -2217,6 +2243,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       step: 1
     };
+  },
+  methods: {
+    updateStep: function updateStep(step) {
+      this.step = step;
+    }
   }
 });
 
@@ -39105,70 +39136,68 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "row" }, [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.email,
-            expression: "email"
-          }
-        ],
-        attrs: {
-          type: "email",
-          name: "email",
-          id: "email",
-          placeholder: "User Email"
-        },
-        domProps: { value: _vm.email },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.email = $event.target.value
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary",
+  return _c("div", { staticClass: "row offset-5" }, [
+    _c(
+      "div",
+      {
+        staticClass:
+          "col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3"
+      },
+      [
+        _c("div", { staticClass: "form-group input" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.email,
+                expression: "email"
+              }
+            ],
+            attrs: {
+              type: "email",
+              name: "email",
+              id: "email",
+              placeholder: "User Email"
+            },
+            domProps: { value: _vm.email },
             on: {
-              click: function($event) {
-                $event.preventDefault()
-                return _vm.increase($event)
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.email = $event.target.value
               }
             }
-          },
-          [_vm._v("\n                Next\n            ")]
-        )
-      ])
-    ])
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c(
+            "a",
+            { staticClass: "btn btn-primary", attrs: { href: "/operations" } },
+            [_vm._v("\n                Previous\n            ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.increase($event)
+                }
+              }
+            },
+            [_vm._v("\n                Next\n            ")]
+          )
+        ])
+      ]
+    )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c(
-        "a",
-        { staticClass: "btn btn-primary", attrs: { href: "/operations" } },
-        [_vm._v("\n                Previous\n            ")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -39190,14 +39219,48 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.decrease($event)
+              }
+            }
+          },
+          [_vm._v("\n                    Previous\n                ")]
+        )
+      ]),
+      _vm._v(" "),
+      _vm._m(1)
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [_c("h2", [_vm._v("Step 2")])])
+    return _c("div", { staticClass: "row" }, [_c("h2", [_vm._v("Step 2")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c(
+        "a",
+        { staticClass: "btn btn-primary", attrs: { href: "/operations" } },
+        [_vm._v("\n\n                    Next\n                ")]
+      )
+    ])
   }
 ]
 render._withStripped = true
@@ -39225,9 +39288,19 @@ var render = function() {
     _c(
       "form",
       [
-        _vm.step == 1 ? _c("step1", { attrs: { props: _vm.step } }) : _vm._e(),
+        _vm.step === 1
+          ? _c("step1", {
+              attrs: { step: _vm.step },
+              on: { "update-step": _vm.updateStep }
+            })
+          : _vm._e(),
         _vm._v(" "),
-        _vm.step == 2 ? _c("step2", { attrs: { props: _vm.step } }) : _vm._e()
+        _vm.step === 2
+          ? _c("step2", {
+              attrs: { step: _vm.step },
+              on: { "update-step": _vm.updateStep }
+            })
+          : _vm._e()
       ],
       1
     )
