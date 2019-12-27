@@ -24,4 +24,11 @@ class ClientRepository
             $query->orderBy('id', 'asc');
         return $query;
     }
+
+    /**
+     * @param $sEmail
+     */
+    public function searchEmail($sEmail) {
+        return Client::where(['email' => $sEmail])->count();
+    }
 }

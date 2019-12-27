@@ -6,7 +6,20 @@
                        name="email"
                        id="email"
                        placeholder="User Email"
+                       @blur="$v.email.$touch()"
+                       :class="{invalid: $v.email.$error}"
                        v-model="email">
+            </div>
+            <div v-if="$v.email.required && $v.email.email && $v.email.existingEmail">
+                <div class="custom-file">
+                    <input
+                        type="file"
+                        class="custom-file-input"
+                        name="file1"
+                        id="file1"
+                    >
+                    <label class="custom-file-label" for="file1">Choose first file</label>
+                </div>
             </div>
             <div class="form-group">
                 <a href="/operations" class="btn btn-primary">
@@ -24,9 +37,14 @@
 </template>
 
 <script>
+    import {validationMixin} from 'vuelidate';
+    import {sendGetRequest, sendRequest} from "../../services/webServices";
+    import {email, required} from "vuelidate/lib/validators";
+
     export default {
         name: "Step1",
         props: ['step'],
+        mixins: [validationMixin],
         data() {
             return {
                 email: ''
@@ -37,9 +55,34 @@
                 this.$emit('update-step', 2);
             }
         },
+        validations() {
+            return {
+                email: {
+                    required,
+                    email,
+                    existingEmail: function (value) {
+                        let response = {};
+                        response = sendGetRequest('check-email', value);
+                        return response.then(result => {
+                            return result.data.count == 0;
+                        })
+                            .catch(err => {
+                                console.log(err);
+                            });
+                    }
+                },
+            }
+        }
     }
 </script>
 
 <style scoped>
+    .input.invalid input {
+        border: 1px solid red;
+        background-color: #ffc9aa;
+    }
 
+    .input.invalid label {
+        color: red;
+    }
 </style>

@@ -40,6 +40,18 @@ class StaffController extends Controller
     /**
      * @param Request $request
      */
+    public function checkEmail(Request $request) {
+        $aData = $request->all();
+        $emailsFound = $this->clientRepo->searchEmail($aData[0]);
+        return [
+            'success' => true,
+            'count' => $emailsFound
+        ];
+    }
+
+    /**
+     * @param Request $request
+     */
     public function changePicture(Request $request){
         // Get authenticated user
         $user = User::find(Auth::user()->id);

@@ -21,6 +21,7 @@ Route::group(['middleware' => 'web'], function () {
         return view('operations');
     })->where('vue_routing', '[\/\w.-]*')->middleware('operator');
     Route::get('/get-clients', 'StaffController@getClients');
+    Route::get('/check-email', 'StaffController@checkEmail');
 
     Auth::routes(['register' => false]);
 
