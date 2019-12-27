@@ -27,6 +27,7 @@
                 </a>
                 <button
                     class="btn btn-primary"
+                    :disabled="!filesValid($v)"
                     @click.prevent="increase"
                 >
                     Next
@@ -40,19 +41,30 @@
     import {validationMixin} from 'vuelidate';
     import {sendGetRequest, sendRequest} from "../../services/webServices";
     import {email, required} from "vuelidate/lib/validators";
-
+    const typeValidator = (file) => {
+        return (/\.(jpg|jpeg|png|pdf)/.test(file.name));
+    };
+    const sizeValidator = (file) => {
+        return file.size < 100000;
+    };
     export default {
         name: "Step1",
         props: ['step'],
         mixins: [validationMixin],
         data() {
             return {
-                email: ''
+                email: '',
+                clickDisabled: true,
             }
         },
         methods: {
             increase() {
                 this.$emit('update-step', 2);
+            },
+            filesValid($v) {
+                return  $v.file1.required &&
+                        $v.file1.sizeValidator &&
+                        $v.file1.typeValidator
             }
         },
         validations() {
@@ -71,6 +83,11 @@
                             });
                     }
                 },
+                file1: {
+                    required,
+                    typeValidator,
+                    sizeValidator
+                }
             }
         }
     }

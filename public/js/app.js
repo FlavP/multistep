@@ -2161,8 +2161,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
+
+
+var typeValidator = function typeValidator(file) {
+  return /\.(jpg|jpeg|png|pdf)/.test(file.name);
+};
+
+var sizeValidator = function sizeValidator(file) {
+  return file.size < 100000;
+};
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Step1",
@@ -2170,12 +2180,16 @@ __webpack_require__.r(__webpack_exports__);
   mixins: [vuelidate__WEBPACK_IMPORTED_MODULE_0__["validationMixin"]],
   data: function data() {
     return {
-      email: ''
+      email: '',
+      clickDisabled: true
     };
   },
   methods: {
     increase: function increase() {
       this.$emit('update-step', 2);
+    },
+    filesValid: function filesValid($v) {
+      return $v.file1.required && $v.file1.sizeValidator && $v.file1.typeValidator;
     }
   },
   validations: function validations() {
@@ -2192,6 +2206,11 @@ __webpack_require__.r(__webpack_exports__);
             console.log(err);
           });
         }
+      },
+      file1: {
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["required"],
+        typeValidator: typeValidator,
+        sizeValidator: sizeValidator
       }
     };
   }
@@ -39284,6 +39303,7 @@ var render = function() {
             "button",
             {
               staticClass: "btn btn-primary",
+              attrs: { disabled: !_vm.filesValid(_vm.$v) },
               on: {
                 click: function($event) {
                   $event.preventDefault()
