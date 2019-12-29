@@ -17,6 +17,7 @@
                         class="custom-file-input"
                         name="file1"
                         id="file1"
+                        @change="fileChange"
                     >
                     <label class="custom-file-label" for="file1">Choose first file</label>
                 </div>
@@ -27,7 +28,8 @@
                 </a>
                 <button
                     class="btn btn-primary"
-                    :disabled="!filesValid($v)"
+                    ref="nextButton"
+                    :disabled="true"
                     @click.prevent="increase"
                 >
                     Next
@@ -42,6 +44,7 @@
     import {sendGetRequest, sendRequest} from "../../services/webServices";
     import {email, required} from "vuelidate/lib/validators";
     const typeValidator = (file) => {
+        console.log((/\.(jpg|jpeg|png|pdf)/.test(file.name)));
         return (/\.(jpg|jpeg|png|pdf)/.test(file.name));
     };
     const sizeValidator = (file) => {
@@ -55,16 +58,35 @@
             return {
                 email: '',
                 clickDisabled: true,
+                files: []
             }
         },
         methods: {
             increase() {
                 this.$emit('update-step', 2);
             },
-            filesValid($v) {
-                return  $v.file1.required &&
-                        $v.file1.sizeValidator &&
-                        $v.file1.typeValidator
+            filesValid(file) {
+                const next = this.$refs.nextButton;
+                if(next.disabled)
+                    next.enable;
+                return  file.sizeValidator &&
+                        file.typeValidator
+            },
+            fileChange(e) {
+                let files = e.target.files;
+                if(!files.length)
+                    return;
+                this.buildFiles(files[0]);
+            },
+            buildFiles(file) {
+                let reader = new FileReader();
+                let vm = this;
+                const next = this.$refs.nextButton;
+                reader.onload = (e) => {
+                    if(this.filesValid(file)){
+                        vm.files.push(file);
+                    }
+                };
             }
         },
         validations() {

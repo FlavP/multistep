@@ -2162,11 +2162,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
 
 var typeValidator = function typeValidator(file) {
+  console.log(/\.(jpg|jpeg|png|pdf)/.test(file.name));
   return /\.(jpg|jpeg|png|pdf)/.test(file.name);
 };
 
@@ -2181,15 +2184,36 @@ var sizeValidator = function sizeValidator(file) {
   data: function data() {
     return {
       email: '',
-      clickDisabled: true
+      clickDisabled: true,
+      files: []
     };
   },
   methods: {
     increase: function increase() {
       this.$emit('update-step', 2);
     },
-    filesValid: function filesValid($v) {
-      return $v.file1.required && $v.file1.sizeValidator && $v.file1.typeValidator;
+    filesValid: function filesValid(file) {
+      var next = this.$refs.nextButton;
+      if (next.disabled) next.enable;
+      return file.sizeValidator && file.typeValidator;
+    },
+    fileChange: function fileChange(e) {
+      var files = e.target.files;
+      if (!files.length) return;
+      this.buildFiles(files[0]);
+    },
+    buildFiles: function buildFiles(file) {
+      var _this = this;
+
+      var reader = new FileReader();
+      var vm = this;
+      var next = this.$refs.nextButton;
+
+      reader.onload = function (e) {
+        if (_this.filesValid(file)) {
+          vm.files.push(file);
+        }
+      };
     }
   },
   validations: function validations() {
@@ -39289,7 +39313,21 @@ var render = function() {
         _vm.$v.email.required &&
         _vm.$v.email.email &&
         _vm.$v.email.existingEmail
-          ? _c("div", [_vm._m(0)])
+          ? _c("div", [
+              _c("div", { staticClass: "custom-file" }, [
+                _c("input", {
+                  staticClass: "custom-file-input",
+                  attrs: { type: "file", name: "file1", id: "file1" },
+                  on: { change: _vm.fileChange }
+                }),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  { staticClass: "custom-file-label", attrs: { for: "file1" } },
+                  [_vm._v("Choose first file")]
+                )
+              ])
+            ])
           : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [
@@ -39302,8 +39340,9 @@ var render = function() {
           _c(
             "button",
             {
+              ref: "nextButton",
               staticClass: "btn btn-primary",
-              attrs: { disabled: !_vm.filesValid(_vm.$v) },
+              attrs: { disabled: true },
               on: {
                 click: function($event) {
                   $event.preventDefault()
@@ -39318,25 +39357,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "custom-file" }, [
-      _c("input", {
-        staticClass: "custom-file-input",
-        attrs: { type: "file", name: "file1", id: "file1" }
-      }),
-      _vm._v(" "),
-      _c(
-        "label",
-        { staticClass: "custom-file-label", attrs: { for: "file1" } },
-        [_vm._v("Choose first file")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
