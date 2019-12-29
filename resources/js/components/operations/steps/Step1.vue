@@ -68,9 +68,9 @@
             filesValid(file) {
                 const next = this.$refs.nextButton;
                 if(next.disabled)
-                    next.enable;
-                return  file.sizeValidator &&
-                        file.typeValidator
+                    next.disabled = false;
+                return  sizeValidator(file) &&
+                        typeValidator(file)
             },
             fileChange(e) {
                 let files = e.target.files;
@@ -79,14 +79,14 @@
                 this.buildFiles(files[0]);
             },
             buildFiles(file) {
+                // https://medium.com/@jagadeshanh/image-upload-and-validation-using-laravel-and-vuejs-e71e0f094fbb
                 let reader = new FileReader();
                 let vm = this;
-                const next = this.$refs.nextButton;
                 reader.onload = (e) => {
-                    if(this.filesValid(file)){
-                        vm.files.push(file);
-                    }
+                    if(this.filesValid(file))
+                        vm.files.push(e.target.result);
                 };
+                reader.readAsDataURL(file);
             }
         },
         validations() {
@@ -107,8 +107,6 @@
                 },
                 file1: {
                     required,
-                    typeValidator,
-                    sizeValidator
                 }
             }
         }

@@ -2194,8 +2194,8 @@ var sizeValidator = function sizeValidator(file) {
     },
     filesValid: function filesValid(file) {
       var next = this.$refs.nextButton;
-      if (next.disabled) next.enable;
-      return file.sizeValidator && file.typeValidator;
+      if (next.disabled) next.disabled = false;
+      return sizeValidator(file) && typeValidator(file);
     },
     fileChange: function fileChange(e) {
       var files = e.target.files;
@@ -2205,15 +2205,15 @@ var sizeValidator = function sizeValidator(file) {
     buildFiles: function buildFiles(file) {
       var _this = this;
 
+      // https://medium.com/@jagadeshanh/image-upload-and-validation-using-laravel-and-vuejs-e71e0f094fbb
       var reader = new FileReader();
       var vm = this;
-      var next = this.$refs.nextButton;
 
       reader.onload = function (e) {
-        if (_this.filesValid(file)) {
-          vm.files.push(file);
-        }
+        if (_this.filesValid(file)) vm.files.push(e.target.result);
       };
+
+      reader.readAsDataURL(file);
     }
   },
   validations: function validations() {
@@ -2232,9 +2232,7 @@ var sizeValidator = function sizeValidator(file) {
         }
       },
       file1: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["required"],
-        typeValidator: typeValidator,
-        sizeValidator: sizeValidator
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["required"]
       }
     };
   }
