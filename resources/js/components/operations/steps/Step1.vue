@@ -19,7 +19,8 @@
                         id="file1"
                         @change="fileChange"
                     >
-                    <label class="custom-file-label" for="file1">Choose first file</label>
+                    <label v-if="this.files.length == 0" class="custom-file-label" for="file1">Choose first file</label>
+                    <label v-else class="custom-file-label" for="file1">{{this.files[0].name}}</label>
                 </div>
             </div>
             <div class="form-group">
@@ -44,7 +45,6 @@
     import {sendGetRequest, sendRequest} from "../../services/webServices";
     import {email, required} from "vuelidate/lib/validators";
     const typeValidator = (file) => {
-        console.log((/\.(jpg|jpeg|png|pdf)/.test(file.name)));
         return (/\.(jpg|jpeg|png|pdf)/.test(file.name));
     };
     const sizeValidator = (file) => {
@@ -87,6 +87,7 @@
                         vm.files.push(e.target.result);
                 };
                 reader.readAsDataURL(file);
+                console.log(this.files);
             }
         },
         validations() {

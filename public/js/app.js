@@ -2164,12 +2164,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
 
 var typeValidator = function typeValidator(file) {
-  console.log(/\.(jpg|jpeg|png|pdf)/.test(file.name));
   return /\.(jpg|jpeg|png|pdf)/.test(file.name);
 };
 
@@ -2214,6 +2214,7 @@ var sizeValidator = function sizeValidator(file) {
       };
 
       reader.readAsDataURL(file);
+      console.log(this.files);
     }
   },
   validations: function validations() {
@@ -39319,11 +39320,23 @@ var render = function() {
                   on: { change: _vm.fileChange }
                 }),
                 _vm._v(" "),
-                _c(
-                  "label",
-                  { staticClass: "custom-file-label", attrs: { for: "file1" } },
-                  [_vm._v("Choose first file")]
-                )
+                this.files.length == 0
+                  ? _c(
+                      "label",
+                      {
+                        staticClass: "custom-file-label",
+                        attrs: { for: "file1" }
+                      },
+                      [_vm._v("Choose first file")]
+                    )
+                  : _c(
+                      "label",
+                      {
+                        staticClass: "custom-file-label",
+                        attrs: { for: "file1" }
+                      },
+                      [_vm._v(_vm._s(this.files[0].name))]
+                    )
               ])
             ])
           : _vm._e(),
