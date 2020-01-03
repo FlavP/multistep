@@ -2165,6 +2165,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2174,7 +2182,7 @@ var typeValidator = function typeValidator(file) {
 };
 
 var sizeValidator = function sizeValidator(file) {
-  return file.size < 100000;
+  return file.size < 1000000;
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2185,7 +2193,9 @@ var sizeValidator = function sizeValidator(file) {
     return {
       email: '',
       clickDisabled: true,
-      files: []
+      fileTypeError: '',
+      files: [],
+      fileNames: []
     };
   },
   methods: {
@@ -2203,18 +2213,27 @@ var sizeValidator = function sizeValidator(file) {
       this.buildFiles(files[0]);
     },
     buildFiles: function buildFiles(file) {
-      var _this = this;
-
       // https://medium.com/@jagadeshanh/image-upload-and-validation-using-laravel-and-vuejs-e71e0f094fbb
-      var reader = new FileReader();
+      // ce mizerie https://stackoverflow.com/questions/54124977/vuejs-input-file-selection-event-not-firing-upon-selecting-the-same-file
+      var reader = reader || new FileReader();
       var vm = this;
 
       reader.onload = function (e) {
-        if (_this.filesValid(file)) vm.files.push(e.target.result);
+        if (vm.filesValid(file) && file.name !== '') {
+          vm.fileNames.push(file.name);
+          vm.files.push(e.target.result);
+          vm.fileTypeError = '';
+        } else vm.fileTypeError = 'This format is not supported ';
       };
 
       reader.readAsDataURL(file);
-      console.log(this.files);
+    },
+    removeFile: function removeFile(index) {
+      var aux = this.fileNames;
+      aux.splice(index);
+      this.fileNames = [];
+      this.fileNames = aux;
+      this.files.splice(index);
     }
   },
   validations: function validations() {
@@ -39287,7 +39306,7 @@ var render = function() {
                 expression: "email"
               }
             ],
-            class: { invalid: _vm.$v.email.$error },
+            class: { invalid: _vm.$v.email.$error || this.fileTypeError },
             attrs: {
               type: "email",
               name: "email",
@@ -39312,7 +39331,7 @@ var render = function() {
         _vm.$v.email.required &&
         _vm.$v.email.email &&
         _vm.$v.email.existingEmail
-          ? _c("div", [
+          ? _c("div", { staticClass: "input-group mb-3" }, [
               _c("div", { staticClass: "custom-file" }, [
                 _c("input", {
                   staticClass: "custom-file-input",
@@ -39320,7 +39339,7 @@ var render = function() {
                   on: { change: _vm.fileChange }
                 }),
                 _vm._v(" "),
-                this.files.length == 0
+                typeof _vm.fileNames[0] === "undefined"
                   ? _c(
                       "label",
                       {
@@ -39335,8 +39354,26 @@ var render = function() {
                         staticClass: "custom-file-label",
                         attrs: { for: "file1" }
                       },
-                      [_vm._v(_vm._s(this.files[0].name))]
+                      [_vm._v(_vm._s(this.fileNames[0]))]
                     )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-group-append" }, [
+                typeof _vm.fileNames[0] !== "undefined"
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.removeFile(0)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-times" })]
+                    )
+                  : _vm._e()
               ])
             ])
           : _vm._e(),

@@ -7,20 +7,28 @@
                        id="email"
                        placeholder="User Email"
                        @blur="$v.email.$touch()"
-                       :class="{invalid: $v.email.$error}"
+                       :class="{invalid: $v.email.$error || this.fileTypeError}"
                        v-model="email">
             </div>
-            <div v-if="$v.email.required && $v.email.email && $v.email.existingEmail">
+            <div class="input-group mb-3" v-if="$v.email.required && $v.email.email && $v.email.existingEmail">
                 <div class="custom-file">
                     <input
-                        type="file"
-                        class="custom-file-input"
-                        name="file1"
-                        id="file1"
-                        @change="fileChange"
+                            type="file"
+                            class="custom-file-input"
+                            name="file1"
+                            id="file1"
+                            @change="fileChange"
                     >
-                    <label v-if="this.files.length == 0" class="custom-file-label" for="file1">Choose first file</label>
-                    <label v-else class="custom-file-label" for="file1">{{this.files[0].name}}</label>
+                    <label v-if="typeof fileNames[0] === 'undefined'" class="custom-file-label" for="file1">Choose first file</label>
+                    <label v-else class="custom-file-label" for="file1">{{this.fileNames[0]}}</label>
+                </div>
+                <div class="input-group-append">
+                    <button
+                            class="btn btn-primary"
+                            v-if="typeof fileNames[0] !== 'undefined'"
+                            @click.prevent="removeFile(0)"
+                    ><i class="fas fa-times"></i>
+                    </button>
                 </div>
             </div>
             <div class="form-group">
@@ -28,10 +36,10 @@
                     Previous
                 </a>
                 <button
-                    class="btn btn-primary"
-                    ref="nextButton"
-                    :disabled="true"
-                    @click.prevent="increase"
+                        class="btn btn-primary"
+                        ref="nextButton"
+                        :disabled="true"
+                        @click.prevent="increase"
                 >
                     Next
                 </button>
@@ -44,11 +52,12 @@
     import {validationMixin} from 'vuelidate';
     import {sendGetRequest, sendRequest} from "../../services/webServices";
     import {email, required} from "vuelidate/lib/validators";
+
     const typeValidator = (file) => {
         return (/\.(jpg|jpeg|png|pdf)/.test(file.name));
     };
     const sizeValidator = (file) => {
-        return file.size < 100000;
+        return file.size < 1000000;
     };
     export default {
         name: "Step1",
@@ -58,7 +67,9 @@
             return {
                 email: '',
                 clickDisabled: true,
-                files: []
+                fileTypeError: '',
+                files: [],
+                fileNames: []
             }
         },
         methods: {
@@ -67,27 +78,38 @@
             },
             filesValid(file) {
                 const next = this.$refs.nextButton;
-                if(next.disabled)
+                if (next.disabled)
                     next.disabled = false;
-                return  sizeValidator(file) &&
-                        typeValidator(file)
+                return sizeValidator(file) &&
+                    typeValidator(file)
             },
             fileChange(e) {
                 let files = e.target.files;
-                if(!files.length)
+                if (!files.length)
                     return;
                 this.buildFiles(files[0]);
             },
             buildFiles(file) {
                 // https://medium.com/@jagadeshanh/image-upload-and-validation-using-laravel-and-vuejs-e71e0f094fbb
-                let reader = new FileReader();
+                // ce mizerie https://stackoverflow.com/questions/54124977/vuejs-input-file-selection-event-not-firing-upon-selecting-the-same-file
+                let reader = reader || new FileReader();
                 let vm = this;
                 reader.onload = (e) => {
-                    if(this.filesValid(file))
+                    if (vm.filesValid(file) && file.name !== '') {
+                        vm.fileNames.push(file.name);
                         vm.files.push(e.target.result);
+                        vm.fileTypeError = '';
+                    } else
+                        vm.fileTypeError = 'This format is not supported ';
                 };
                 reader.readAsDataURL(file);
-                console.log(this.files);
+            },
+            removeFile(index) {
+                let aux = this.fileNames;
+                aux.splice(index);
+                this.fileNames = [];
+                this.fileNames = aux;
+                this.files.splice(index);
             }
         },
         validations() {
