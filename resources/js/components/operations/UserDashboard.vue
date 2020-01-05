@@ -147,6 +147,11 @@
                 clientParams: {},
             }
         },
+        watch: {
+            searchString() {
+                this.getClients();
+            }
+        },
         methods: {
             // Ca sa nu mai dau clientii prin props
             getClients(page_url) {
@@ -188,11 +193,8 @@
                 if (this.searchString.length >= 3) {
                     this.clientParams.search_column = this.searchColumn;
                     this.clientParams.match = this.searchString;
-                    this.getClients('');
-                } else {
+                } else
                     this.resetFilters();
-                    this.getClients('');
-                }
             },
             toggleSearch(column) {
                 this.searchField = !this.searchField;

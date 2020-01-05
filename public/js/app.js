@@ -2020,6 +2020,11 @@ __webpack_require__.r(__webpack_exports__);
       clientParams: {}
     };
   },
+  watch: {
+    searchString: function searchString() {
+      this.getClients();
+    }
+  },
   methods: {
     // Ca sa nu mai dau clientii prin props
     getClients: function getClients(page_url) {
@@ -2059,11 +2064,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.searchString.length >= 3) {
         this.clientParams.search_column = this.searchColumn;
         this.clientParams.match = this.searchString;
-        this.getClients('');
-      } else {
-        this.resetFilters();
-        this.getClients('');
-      }
+      } else this.resetFilters();
     },
     toggleSearch: function toggleSearch(column) {
       this.searchField = !this.searchField;
@@ -2173,6 +2174,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2207,21 +2219,23 @@ var sizeValidator = function sizeValidator(file) {
       if (next.disabled) next.disabled = false;
       return sizeValidator(file) && typeValidator(file);
     },
-    fileChange: function fileChange(e) {
+    fileChange: function fileChange(e, index) {
       var files = e.target.files;
       if (!files.length) return;
-      this.buildFiles(files[0]);
+      this.buildFiles(files[0], index);
     },
-    buildFiles: function buildFiles(file) {
+    buildFiles: function buildFiles(file, index) {
       // https://medium.com/@jagadeshanh/image-upload-and-validation-using-laravel-and-vuejs-e71e0f094fbb
-      // ce mizerie https://stackoverflow.com/questions/54124977/vuejs-input-file-selection-event-not-firing-upon-selecting-the-same-file
-      var reader = reader || new FileReader();
+      var reader = new FileReader();
       var vm = this;
 
       reader.onload = function (e) {
         if (vm.filesValid(file) && file.name !== '') {
-          vm.fileNames.push(file.name);
-          vm.files.push(e.target.result);
+          // vm.fileNames[index] = file.name;
+          // vm.files[index] = e.target.result;
+          // Workaround pentru codul de mai sus
+          vm.$set(vm.fileNames, index, file.name);
+          vm.$set(vm.files, index, e.target.result);
           vm.fileTypeError = '';
         } else vm.fileTypeError = 'This format is not supported ';
       };
@@ -2229,11 +2243,14 @@ var sizeValidator = function sizeValidator(file) {
       reader.readAsDataURL(file);
     },
     removeFile: function removeFile(index) {
-      var aux = this.fileNames;
-      aux.splice(index);
-      this.fileNames = [];
-      this.fileNames = aux;
-      this.files.splice(index);
+      var vm = this; // delete vm.fileNames[index];
+      // delete vm.files[index];
+
+      vm.$set(vm.fileNames, index, null);
+      vm.$set(vm.files, index, null); // ca sa pot urca din nou acelasi fisier
+
+      var guiltyRef = 'file' + index;
+      vm.$refs[guiltyRef][0].value = '';
     }
   },
   validations: function validations() {
@@ -2251,7 +2268,7 @@ var sizeValidator = function sizeValidator(file) {
           });
         }
       },
-      file1: {
+      file0: {
         required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["required"]
       }
     };
@@ -39306,7 +39323,7 @@ var render = function() {
                 expression: "email"
               }
             ],
-            class: { invalid: _vm.$v.email.$error || this.fileTypeError },
+            class: { invalid: _vm.$v.email.$error || _vm.fileTypeError },
             attrs: {
               type: "email",
               name: "email",
@@ -39331,51 +39348,76 @@ var render = function() {
         _vm.$v.email.required &&
         _vm.$v.email.email &&
         _vm.$v.email.existingEmail
-          ? _c("div", { staticClass: "input-group mb-3" }, [
-              _c("div", { staticClass: "custom-file" }, [
-                _c("input", {
-                  staticClass: "custom-file-input",
-                  attrs: { type: "file", name: "file1", id: "file1" },
-                  on: { change: _vm.fileChange }
-                }),
-                _vm._v(" "),
-                typeof _vm.fileNames[0] === "undefined"
-                  ? _c(
-                      "label",
-                      {
-                        staticClass: "custom-file-label",
-                        attrs: { for: "file1" }
-                      },
-                      [_vm._v("Choose first file")]
-                    )
-                  : _c(
-                      "label",
-                      {
-                        staticClass: "custom-file-label",
-                        attrs: { for: "file1" }
-                      },
-                      [_vm._v(_vm._s(this.fileNames[0]))]
-                    )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "input-group-append" }, [
-                typeof _vm.fileNames[0] !== "undefined"
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.removeFile(0)
-                          }
+          ? _c(
+              "div",
+              _vm._l([0, 1, 2, 3, 4], function(i) {
+                return _c("div", { staticClass: "input-group mb-3" }, [
+                  _c("div", { staticClass: "custom-file" }, [
+                    _c("input", {
+                      ref: "file" + i,
+                      refInFor: true,
+                      staticClass: "custom-file-input",
+                      attrs: { type: "file", name: "file" + i, id: "file" + i },
+                      on: {
+                        change: function($event) {
+                          return _vm.fileChange($event, i)
                         }
-                      },
-                      [_c("i", { staticClass: "fas fa-times" })]
-                    )
-                  : _vm._e()
-              ])
-            ])
+                      }
+                    }),
+                    _vm._v(" "),
+                    typeof _vm.fileNames[i] === "undefined" ||
+                    _vm.fileNames[i] === null
+                      ? _c(
+                          "label",
+                          {
+                            staticClass: "custom-file-label",
+                            attrs: { for: "file" + i }
+                          },
+                          [
+                            _vm._v(
+                              "Choose file " +
+                                _vm._s(i + 1) +
+                                "\n                    "
+                            )
+                          ]
+                        )
+                      : _c(
+                          "label",
+                          {
+                            staticClass: "custom-file-label",
+                            attrs: { for: "file" + i }
+                          },
+                          [
+                            _vm._v(
+                              _vm._s(_vm.fileNames[i]) +
+                                "\n                    "
+                            )
+                          ]
+                        )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group-append" }, [
+                    typeof _vm.fileNames[i] !== "undefined" &&
+                    _vm.fileNames[i] !== null
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.removeFile(i)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fas fa-times" })]
+                        )
+                      : _vm._e()
+                  ])
+                ])
+              }),
+              0
+            )
           : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [

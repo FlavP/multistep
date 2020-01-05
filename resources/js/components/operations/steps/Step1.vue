@@ -7,28 +7,39 @@
                        id="email"
                        placeholder="User Email"
                        @blur="$v.email.$touch()"
-                       :class="{invalid: $v.email.$error || this.fileTypeError}"
+                       :class="{invalid: $v.email.$error || fileTypeError}"
                        v-model="email">
             </div>
-            <div class="input-group mb-3" v-if="$v.email.required && $v.email.email && $v.email.existingEmail">
-                <div class="custom-file">
-                    <input
-                            type="file"
-                            class="custom-file-input"
-                            name="file1"
-                            id="file1"
-                            @change="fileChange"
-                    >
-                    <label v-if="typeof fileNames[0] === 'undefined'" class="custom-file-label" for="file1">Choose first file</label>
-                    <label v-else class="custom-file-label" for="file1">{{this.fileNames[0]}}</label>
-                </div>
-                <div class="input-group-append">
-                    <button
-                            class="btn btn-primary"
-                            v-if="typeof fileNames[0] !== 'undefined'"
-                            @click.prevent="removeFile(0)"
-                    ><i class="fas fa-times"></i>
-                    </button>
+            <div v-if="$v.email.required && $v.email.email && $v.email.existingEmail">
+                <div class="input-group mb-3" v-for="i in [0,1,2,3,4]" >
+
+                    <div class="custom-file">
+                        <input
+                                type="file"
+                                class="custom-file-input"
+                                :name="'file' + i"
+                                :id="'file' + i"
+                                :ref="'file' + i"
+                                @change="fileChange($event, i)"
+                        >
+                        <label
+                                v-if="typeof fileNames[i] === 'undefined' || fileNames[i] === null"
+                                class="custom-file-label"
+                                :for="'file' + i">Choose file {{ i + 1 }}
+                        </label>
+                        <label
+                                v-else class="custom-file-label"
+                                :for="'file' + i">{{fileNames[i]}}
+                        </label>
+                    </div>
+                    <div class="input-group-append">
+                        <button
+                                class="btn btn-primary"
+                                v-if="typeof fileNames[i] !== 'undefined' && fileNames[i] !== null"
+                                @click.prevent="removeFile(i)"
+                        ><i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -83,33 +94,38 @@
                 return sizeValidator(file) &&
                     typeValidator(file)
             },
-            fileChange(e) {
+            fileChange(e, index) {
                 let files = e.target.files;
                 if (!files.length)
                     return;
-                this.buildFiles(files[0]);
+                this.buildFiles(files[0], index);
             },
-            buildFiles(file) {
+            buildFiles(file, index) {
                 // https://medium.com/@jagadeshanh/image-upload-and-validation-using-laravel-and-vuejs-e71e0f094fbb
-                // ce mizerie https://stackoverflow.com/questions/54124977/vuejs-input-file-selection-event-not-firing-upon-selecting-the-same-file
-                let reader = reader || new FileReader();
+                let reader = new FileReader();
                 let vm = this;
                 reader.onload = (e) => {
                     if (vm.filesValid(file) && file.name !== '') {
-                        vm.fileNames.push(file.name);
-                        vm.files.push(e.target.result);
-                        vm.fileTypeError = '';
+                            // vm.fileNames[index] = file.name;
+                            // vm.files[index] = e.target.result;
+                            // Workaround pentru codul de mai sus
+                            vm.$set(vm.fileNames, index, file.name);
+                            vm.$set(vm.files, index, e.target.result);
+                            vm.fileTypeError = '';
                     } else
                         vm.fileTypeError = 'This format is not supported ';
                 };
                 reader.readAsDataURL(file);
             },
             removeFile(index) {
-                let aux = this.fileNames;
-                aux.splice(index);
-                this.fileNames = [];
-                this.fileNames = aux;
-                this.files.splice(index);
+                let vm = this;
+                // delete vm.fileNames[index];
+                // delete vm.files[index];
+                vm.$set(vm.fileNames, index, null);
+                vm.$set(vm.files, index, null);
+                // ca sa pot urca din nou acelasi fisier
+                let guiltyRef = 'file' + index;
+                vm.$refs[guiltyRef][0].value = '';
             }
         },
         validations() {
@@ -128,7 +144,7 @@
                             });
                     }
                 },
-                file1: {
+                file0: {
                     required,
                 }
             }
