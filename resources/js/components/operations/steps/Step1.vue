@@ -83,8 +83,20 @@
                 fileNames: []
             }
         },
+        created() {
+            this.loadEmail;
+        },
+        computed: {
+            loadEmail() {
+                this.email = this.$store.getters.getEmail;
+            }
+        },
         methods: {
             increase() {
+                // Logica de set email in store:
+                this.$store.dispatch('setEmail', {
+                    email: this.email
+                });
                 this.$emit('update-step', 2);
             },
             filesValid(file) {
@@ -126,7 +138,7 @@
                 // ca sa pot urca din nou acelasi fisier
                 let guiltyRef = 'file' + index;
                 vm.$refs[guiltyRef][0].value = '';
-            }
+            },
         },
         validations() {
             return {
