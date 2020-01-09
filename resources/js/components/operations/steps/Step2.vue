@@ -44,7 +44,7 @@
         props: ['step'],
         data() {
             return {
-                email: ''
+                email: 'ggggg'
             }
         },
         created() {

@@ -2367,7 +2367,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['step'],
   data: function data() {
     return {
-      email: ''
+      email: 'ggggg'
     };
   },
   created: function created() {
@@ -59304,7 +59304,6 @@ router.replace('/operations');
 __webpack_require__.r(__webpack_exports__);
 var actions = {
   setEmail: function setEmail(context, emailObject) {
-    console.log(emailObject);
     context.commit('setEmail', emailObject);
   }
 };
@@ -59316,14 +59315,17 @@ var actions = {
 /*!***********************************************!*\
   !*** ./resources/js/store/modules/getters.js ***!
   \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 var getters = {
   getEmail: function getEmail(state) {
     return state.email;
   }
 };
+/* harmony default export */ __webpack_exports__["default"] = (getters);
 
 /***/ }),
 
@@ -59359,7 +59361,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _modules_getters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/getters */ "./resources/js/store/modules/getters.js");
-/* harmony import */ var _modules_getters__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_modules_getters__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _modules_mutations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/mutations */ "./resources/js/store/modules/mutations.js");
 /* harmony import */ var _modules_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/actions */ "./resources/js/store/modules/actions.js");
 
@@ -59368,12 +59369,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+var email = '';
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   namespaced: true,
   state: {
-    email: ''
+    email: email
   },
-  getters: _modules_getters__WEBPACK_IMPORTED_MODULE_2___default.a,
+  getters: _modules_getters__WEBPACK_IMPORTED_MODULE_2__["default"],
   actions: _modules_actions__WEBPACK_IMPORTED_MODULE_4__["default"],
   mutations: _modules_mutations__WEBPACK_IMPORTED_MODULE_3__["default"]
 });

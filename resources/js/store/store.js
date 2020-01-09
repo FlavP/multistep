@@ -6,10 +6,12 @@ import actions from "./modules/actions";
 
 Vue.use(Vuex);
 
+let email = '';
+
 export const store = new Vuex.Store({
     namespaced: true,
     state: {
-        email: ''
+        email
     },
     getters,
     actions,
