@@ -11,7 +11,7 @@
                        v-model="email">
             </div>
             <div v-if="$v.email.required && $v.email.email && $v.email.existingEmail">
-                <div class="input-group mb-3" v-for="i in [0,1,2,3,4]" >
+                <div class="input-group mb-3" v-for="i in [0,1,2,3,4]">
 
                     <div class="custom-file">
                         <input
@@ -85,10 +85,21 @@
         },
         created() {
             this.loadEmail;
+            this.loadFiles;
         },
         computed: {
             loadEmail() {
                 this.email = this.$store.getters.getEmail;
+            },
+            loadFiles() {
+                const files = this.$store.getters.getFiles;
+                const fileNames = this.$store.getters.getFileNames;
+                if (typeof files !== "undefined") {
+                    this.files = files;
+                }
+                if (typeof fileNames !== "undefined") {
+                    this.fileNames = fileNames;
+                }
             }
         },
         methods: {
@@ -97,14 +108,20 @@
                 this.$store.dispatch('setEmail', {
                     email: this.email
                 });
+                this.$store.dispatch('setFiles', {
+                    files: this.files,
+                    fileNames: this.fileNames
+                });
                 this.$emit('update-step', 2);
             },
             filesValid(file) {
                 const next = this.$refs.nextButton;
-                if (next.disabled)
+                if (sizeValidator(file) &&
+                    typeValidator(file)) {
                     next.disabled = false;
-                return sizeValidator(file) &&
-                    typeValidator(file)
+                    return true;
+                }
+                return false
             },
             fileChange(e, index) {
                 let files = e.target.files;
@@ -118,12 +135,12 @@
                 let vm = this;
                 reader.onload = (e) => {
                     if (vm.filesValid(file) && file.name !== '') {
-                            // vm.fileNames[index] = file.name;
-                            // vm.files[index] = e.target.result;
-                            // Workaround pentru codul de mai sus
-                            vm.$set(vm.fileNames, index, file.name);
-                            vm.$set(vm.files, index, e.target.result);
-                            vm.fileTypeError = '';
+                        // vm.fileNames[index] = file.name;
+                        // vm.files[index] = e.target.result;
+                        // Workaround pentru codul de mai sus
+                        vm.$set(vm.fileNames, index, file.name);
+                        vm.$set(vm.files, index, e.target.result);
+                        vm.fileTypeError = '';
                     } else
                         vm.fileTypeError = 'This format is not supported ';
                 };

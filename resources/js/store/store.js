@@ -7,11 +7,15 @@ import actions from "./modules/actions";
 Vue.use(Vuex);
 
 let email = '';
+const files = [];
+const fileNames = [];
 
 export const store = new Vuex.Store({
     namespaced: true,
     state: {
-        email
+        email,
+        files,
+        fileNames
     },
     getters,
     actions,

@@ -2126,7 +2126,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "FilesPreview"
+  name: "FilesPreview",
+  data: function data() {
+    return {
+      files: [],
+      fileNames: []
+    };
+  },
+  created: function created() {
+    this.loadFiles;
+  },
+  computed: {
+    loadFiles: function loadFiles() {
+      var files = this.$store.getters.getFiles;
+      var fileNames = this.$store.getters.getFileNames;
+
+      if (typeof files !== "undefined") {
+        this.files = files;
+      }
+
+      if (typeof fileNames !== "undefined") {
+        this.fileNames = fileNames;
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -2233,10 +2256,23 @@ var sizeValidator = function sizeValidator(file) {
   },
   created: function created() {
     this.loadEmail;
+    this.loadFiles;
   },
   computed: {
     loadEmail: function loadEmail() {
       this.email = this.$store.getters.getEmail;
+    },
+    loadFiles: function loadFiles() {
+      var files = this.$store.getters.getFiles;
+      var fileNames = this.$store.getters.getFileNames;
+
+      if (typeof files !== "undefined") {
+        this.files = files;
+      }
+
+      if (typeof fileNames !== "undefined") {
+        this.fileNames = fileNames;
+      }
     }
   },
   methods: {
@@ -2245,12 +2281,21 @@ var sizeValidator = function sizeValidator(file) {
       this.$store.dispatch('setEmail', {
         email: this.email
       });
+      this.$store.dispatch('setFiles', {
+        files: this.files,
+        fileNames: this.fileNames
+      });
       this.$emit('update-step', 2);
     },
     filesValid: function filesValid(file) {
       var next = this.$refs.nextButton;
-      if (next.disabled) next.disabled = false;
-      return sizeValidator(file) && typeValidator(file);
+
+      if (sizeValidator(file) && typeValidator(file)) {
+        next.disabled = false;
+        return true;
+      }
+
+      return false;
     },
     fileChange: function fileChange(e, index) {
       var files = e.target.files;
@@ -2367,7 +2412,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['step'],
   data: function data() {
     return {
-      email: 'ggggg'
+      email: ''
     };
   },
   created: function created() {
@@ -59305,6 +59350,9 @@ __webpack_require__.r(__webpack_exports__);
 var actions = {
   setEmail: function setEmail(context, emailObject) {
     context.commit('setEmail', emailObject);
+  },
+  setFiles: function setFiles(context, fileObjects) {
+    context.commit('setFiles', fileObjects);
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (actions);
@@ -59323,6 +59371,12 @@ __webpack_require__.r(__webpack_exports__);
 var getters = {
   getEmail: function getEmail(state) {
     return state.email;
+  },
+  getFiles: function getFiles(state) {
+    return state.files;
+  },
+  getFileNames: function getFileNames(state) {
+    return state.fileNames;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (getters);
@@ -59341,6 +59395,10 @@ __webpack_require__.r(__webpack_exports__);
 var mutations = {
   setEmail: function setEmail(state, emailObject) {
     state.email = emailObject.email;
+  },
+  setFiles: function setFiles(state, fileObjects) {
+    state.files = fileObjects.files;
+    state.fileNames = fileObjects.fileNames;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (mutations);
@@ -59370,10 +59428,14 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var email = '';
+var files = [];
+var fileNames = [];
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   namespaced: true,
   state: {
-    email: email
+    email: email,
+    files: files,
+    fileNames: fileNames
   },
   getters: _modules_getters__WEBPACK_IMPORTED_MODULE_2__["default"],
   actions: _modules_actions__WEBPACK_IMPORTED_MODULE_4__["default"],
