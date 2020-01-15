@@ -7,8 +7,7 @@ import UserDashboard from "../components/operations/UserDashboard";
 import StepContainer from "../components/operations/steps/StepContainer";
 
 Vue.use(Router);
-
-const router = new Router({
+export const router = new Router({
     mode: 'abstract',
     routes: [
         {
@@ -24,12 +23,7 @@ const router = new Router({
         {
             path: '/profile/upload-picture',
             component: UploadPicture,
-            name: 'picture'
-        },
-        {
-            path: '/operations',
-            component: UserDashboard,
-            name: 'dashboard'
+            name: 'picture',
         },
         {
             path: '/operations/document-steps',
@@ -37,11 +31,11 @@ const router = new Router({
             name: 'docform'
         },
         {
-            path: '/',
-            redirect: '/profile/edit-profile',
-        }
+            path: '/operations',
+            component: UserDashboard,
+            name: 'operations'
+        },
     ]
 });
-router.replace('/operations');
-
 export default router;
+

@@ -16,16 +16,16 @@ Route::group(['middleware' => 'web'], function () {
 //    Route::get('/', function () {
 //        return view('welcome');
 //    });
+    Route::get('/', 'HomeController@index');
 
-    Route::get('/operations/{vue_routing?}', function (){
+    Route::get('/operations', function (){
         return view('operations');
-    })->where('vue_routing', '[\/\w.-]*')->middleware('operator');
+    })->middleware('operator');
     Route::get('/get-clients', 'StaffController@getClients');
-    Route::get('/check-email', 'StaffController@checkEmail');
+    Route::get('/operations/check-email', 'StaffController@checkEmail');
 
     Auth::routes(['register' => false]);
 
-    Route::get('/', 'HomeController@index')->name('home');
 
     // User Profile Routes
     Route::get('/profile/{any}', 'HomeController@index')->where('any', '.*');

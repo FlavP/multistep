@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="app">
+    <div id="account">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 offset-md-3">
@@ -15,11 +15,14 @@
                     </router-link>
                     <router-link :to="{ name: 'picture' }" class="btn btn-outline-info">Upload a picture
                     </router-link>
+{{--                    <a href="/operations" class="btn btn-outline-info">Operations--}}
+{{--                    </a>--}}
                 </div>
                 <div class="col-md-6 offset-md-3">
                     <router-view
                         :picture="{{ json_encode(asset($profilePicture)) }}"
-                    ></router-view>
+                    >
+                    </router-view>
                 </div>
             </div>
         </div>

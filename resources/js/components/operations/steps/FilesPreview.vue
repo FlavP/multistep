@@ -15,6 +15,7 @@
         },
         created() {
             this.loadFiles;
+            console.log(this.fileNames);
         },
         computed: {
             loadFiles() {

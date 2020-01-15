@@ -2135,6 +2135,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.loadFiles;
+    console.log(this.fileNames);
   },
   computed: {
     loadFiles: function loadFiles() {
@@ -2340,6 +2341,7 @@ var sizeValidator = function sizeValidator(file) {
           var response = {};
           response = Object(_services_webServices__WEBPACK_IMPORTED_MODULE_1__["sendGetRequest"])('check-email', value);
           return response.then(function (result) {
+            console.log(result);
             return result.data.count == 0;
           })["catch"](function (err) {
             console.log(err);
@@ -58454,11 +58456,22 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); //Librari
 
  //My Components
 
-var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
-  el: '#app',
-  router: _router__WEBPACK_IMPORTED_MODULE_1__["default"],
-  store: _store_store__WEBPACK_IMPORTED_MODULE_2__["store"]
-});
+if (document.getElementById('account')) {
+  var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
+    el: '#account',
+    router: _router__WEBPACK_IMPORTED_MODULE_1__["router"]
+  });
+}
+
+if (document.getElementById('operations')) {
+  vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('user-dashboard', __webpack_require__(/*! ./components/operations/UserDashboard */ "./resources/js/components/operations/UserDashboard.vue")["default"]);
+
+  var _app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
+    el: '#operations',
+    router: _router__WEBPACK_IMPORTED_MODULE_1__["router"],
+    store: _store_store__WEBPACK_IMPORTED_MODULE_2__["store"]
+  });
+}
 
 /***/ }),
 
@@ -59285,11 +59298,12 @@ var sendGetRequest = function sendGetRequest(url) {
 /*!**************************************!*\
   !*** ./resources/js/router/index.js ***!
   \**************************************/
-/*! exports provided: default */
+/*! exports provided: router, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "router", function() { return router; });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
@@ -59321,19 +59335,15 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     component: _components_profile_UploadPicture__WEBPACK_IMPORTED_MODULE_4__["default"],
     name: 'picture'
   }, {
-    path: '/operations',
-    component: _components_operations_UserDashboard__WEBPACK_IMPORTED_MODULE_5__["default"],
-    name: 'dashboard'
-  }, {
     path: '/operations/document-steps',
     component: _components_operations_steps_StepContainer__WEBPACK_IMPORTED_MODULE_6__["default"],
     name: 'docform'
   }, {
-    path: '/',
-    redirect: '/profile/edit-profile'
+    path: '/operations',
+    component: _components_operations_UserDashboard__WEBPACK_IMPORTED_MODULE_5__["default"],
+    name: 'operations'
   }]
 });
-router.replace('/operations');
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),
