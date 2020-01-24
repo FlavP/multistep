@@ -1,6 +1,11 @@
 <template>
 <div>
-    <h3>Preview</h3>
+    <div>
+        <ul class="list-inline" v-for="(_, index) in fileNames">
+            <li>File {{index + 1}}</li>
+        </ul>
+
+    </div>
 </div>
 </template>
 

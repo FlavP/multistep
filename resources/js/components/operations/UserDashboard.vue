@@ -62,9 +62,7 @@
                         </a>
                     </li>
                     <li>
-                        <router-link to="/operations/document-steps">
-                            <a><i class="fas fa-plus fa-2x"></i></a>
-                        </router-link>
+                        <a href="/operations/document-steps"><i class="fas fa-plus fa-2x"></i></a>
                     </li>
                 </ul>
             </div>

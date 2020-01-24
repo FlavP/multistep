@@ -17,6 +17,7 @@ if (document.getElementById('account')){
 
 if (document.getElementById('operations')) {
     Vue.component('user-dashboard', require('./components/operations/UserDashboard').default);
+    Vue.component('step-container', require('./components/operations/steps/StepContainer').default);
     const app = new Vue({
         el: '#operations',
         router,

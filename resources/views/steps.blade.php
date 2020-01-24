@@ -2,8 +2,6 @@
 
 @section('content')
     <div id="operations">
-        <user-dashboard></user-dashboard>
+        <step-container></step-container>
     </div>
 @endsection
-
-

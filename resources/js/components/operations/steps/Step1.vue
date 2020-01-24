@@ -166,7 +166,6 @@
                         let response = {};
                         response = sendGetRequest('check-email', value);
                         return response.then(result => {
-                            console.log(result);
                             return result.data.count == 0;
                         })
                             .catch(err => {

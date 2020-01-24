@@ -1979,8 +1979,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2119,6 +2117,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2341,7 +2344,6 @@ var sizeValidator = function sizeValidator(file) {
           var response = {};
           response = Object(_services_webServices__WEBPACK_IMPORTED_MODULE_1__["sendGetRequest"])('check-email', value);
           return response.then(function (result) {
-            console.log(result);
             return result.data.count == 0;
           })["catch"](function (err) {
             console.log(err);
@@ -39276,17 +39278,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c(
-            "li",
-            [
-              _c(
-                "router-link",
-                { attrs: { to: "/operations/document-steps" } },
-                [_c("a", [_c("i", { staticClass: "fas fa-plus fa-2x" })])]
-              )
-            ],
-            1
-          )
+          _vm._m(0)
         ])
       ])
     ]),
@@ -39389,7 +39381,18 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("a", { attrs: { href: "/operations/document-steps" } }, [
+        _c("i", { staticClass: "fas fa-plus fa-2x" })
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -39411,16 +39414,19 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _c(
+      "div",
+      _vm._l(_vm.fileNames, function(_, index) {
+        return _c("ul", { staticClass: "list-inline" }, [
+          _c("li", [_vm._v("File " + _vm._s(index + 1))])
+        ])
+      }),
+      0
+    )
+  ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("h3", [_vm._v("Preview")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -58465,6 +58471,7 @@ if (document.getElementById('account')) {
 
 if (document.getElementById('operations')) {
   vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('user-dashboard', __webpack_require__(/*! ./components/operations/UserDashboard */ "./resources/js/components/operations/UserDashboard.vue")["default"]);
+  vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('step-container', __webpack_require__(/*! ./components/operations/steps/StepContainer */ "./resources/js/components/operations/steps/StepContainer.vue")["default"]);
 
   var _app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     el: '#operations',

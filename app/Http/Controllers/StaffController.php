@@ -89,4 +89,7 @@ class StaffController extends Controller
         return $response;
     }
 
+    public function steps() {
+        return view('steps');
+    }
 }
