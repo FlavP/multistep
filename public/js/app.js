@@ -2128,17 +2128,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "FilesPreview",
   data: function data() {
     return {
       files: [],
-      fileNames: []
+      fileNames: [],
+      fileType: '',
+      sourceFile: ''
     };
   },
   created: function created() {
     this.loadFiles;
-    console.log(this.fileNames);
+    this.createPreview(0);
   },
   computed: {
     loadFiles: function loadFiles() {
@@ -2152,6 +2170,12 @@ __webpack_require__.r(__webpack_exports__);
       if (typeof fileNames !== "undefined") {
         this.fileNames = fileNames;
       }
+    }
+  },
+  methods: {
+    createPreview: function createPreview(index) {
+      this.sourceFile = this.files[index];
+      if (/\.(pdf)/.test(this.fileNames[index])) this.fileType = 'pdf';else this.fileType = 'picture';
     }
   }
 });
@@ -39415,15 +39439,53 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "div",
-      _vm._l(_vm.fileNames, function(_, index) {
-        return _c("ul", { staticClass: "list-inline" }, [
-          _c("li", [_vm._v("File " + _vm._s(index + 1))])
-        ])
-      }),
-      0
-    )
+    _c("div", [
+      _c(
+        "ul",
+        { staticClass: "list-inline" },
+        _vm._l(_vm.fileNames, function(_, index) {
+          return _c("li", { staticClass: "list-inline-item" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.createPreview(index)
+                  }
+                }
+              },
+              [
+                _vm._v(
+                  "\n                    File " +
+                    _vm._s(index + 1) +
+                    "\n                "
+                )
+              ]
+            )
+          ])
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-100 h-100" }, [
+        _vm.fileType === "picture"
+          ? _c("div", [
+              _c("img", {
+                staticClass: "img-fluid",
+                attrs: { src: _vm.sourceFile, alt: "File" }
+              })
+            ])
+          : _vm.fileType === "pdf"
+          ? _c("div", { staticClass: "h-100 w-100" }, [
+              _c("iframe", {
+                attrs: { src: _vm.sourceFile, width: "100%", height: "800px" }
+              })
+            ])
+          : _vm._e()
+      ])
+    ])
   ])
 }
 var staticRenderFns = []

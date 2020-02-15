@@ -104,6 +104,7 @@
         },
         methods: {
             increase() {
+
                 // Logica de set email in store:
                 this.$store.dispatch('setEmail', {
                     email: this.email
